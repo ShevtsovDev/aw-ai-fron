@@ -1,0 +1,24 @@
+.badge {
+  padding: 5px 5px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.5px;
+
+  &_alpha {
+    border-color: var(--clr-bage-alpha-bg);
+    color: var(--clr-bage-alpha-text)
+  }
+
+  &_beta {
+    border-color: var(--clr-bage-beta-bg);
+    color: var(--clr-bage-beta-text)
+  }
+
+  &_stable {
+    border-color: var(--clr-bage-stable-bg);
+    color: var(--clr-bage-stable-text)
+  }
+}

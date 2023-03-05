@@ -1,0 +1,55 @@
+:root {
+
+  --clr-black-0: #000000;
+  --clr-black-1: #161717;
+  --clr-black-2: #242424;
+  --clr-black-3: #111111;
+
+  --clr-gray-1: #2B2C2C;
+  --clr-gray-2: #232222;
+  --clr-gray-3: #333333;
+  --clr-gray-4: #BDBDBD;
+  --clr-gray-5: #e0e0e0;
+
+  --clr-shadow-1: #09141B;
+
+  --clr-yellow-1: #FAD85D;
+  --clr-yellow-2: #ffb700;
+
+  --clr-white: #FFFFFF;
+
+  --clr-active: #1b6c9b;
+
+  --clr-button-hover: #114f73;
+  --clr-button-active: #2987be;
+
+  --clr-text-black: #131215;
+
+  --clr-editor-bg: #33333360;
+
+
+  --clr-bage-alpha-text: #CFCFCF;
+  --clr-bage-alpha-bg: #CFCFCF42;
+
+  --clr-bage-beta-text: #E6B434;
+  --clr-bage-beta-bg: #E6B43442;
+
+  --clr-bage-stable-text: #7AF67F;
+  --clr-bage-stable-bg: #7AF67F42;
+
+
+  --main-bg-color: #333333;
+  --main-bg-secondary: #424242;
+  --main-bg-contrast: #153e59;
+
+  --color-white: #ffffff;
+  --color-grey-white: #dedede;
+
+  --color-grey-1: #ababab;
+  --color-grey-2: #919191;
+  --color-grey-3: #808080;
+  --color-grey-4: #525252;
+  --color-grey-5: #3d3d3d;
+
+
+}

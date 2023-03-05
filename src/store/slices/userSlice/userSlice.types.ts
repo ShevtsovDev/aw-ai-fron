@@ -1,0 +1,40 @@
+import { TemplateType } from 'src/components/modules/Templates/Template.types'
+
+export type InitialUserState = {
+  loading: boolean,
+  roles: ['user', 'admin'] | null,
+  balance: number | null,
+  token: string | null,
+  user: {
+    id: number,
+    email: string,
+    name: string,
+  } | null
+}
+
+export type FetchSchemas = {
+  services: TemplateType[]
+}
+
+export type SighUpPayload = {
+  name: string,
+  email: string,
+  password: string
+}
+
+
+export type SighInPayload = {
+  email: string,
+  password: string
+}
+
+export type SignInResponse= {
+  roles: ['user', 'admin'],
+  balance: number,
+  token: string,
+  user: {
+    id: number,
+    email: string,
+    name: string,
+  }
+}

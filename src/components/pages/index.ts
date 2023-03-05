@@ -1,0 +1,6 @@
+export { default as Workspace } from './Workspace/Workspace'
+export { default as Templates } from './Templates/Templates'
+export { default as Dashboard } from './Dashboard/Dashboard'
+export { default as AuthSignUp } from './AuthSignUp/AuthSignUp'
+export { default as AuthSignIn } from './AuthSignIn/AuthSignIn'
+export { default as Home } from './Home/Home'

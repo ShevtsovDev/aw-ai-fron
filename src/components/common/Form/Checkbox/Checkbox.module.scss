@@ -1,0 +1,36 @@
+.input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.icon {
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  max-width: 25px;
+  max-height: 25px;
+  background: var(--clr-gray-1);
+  border: 1px solid var(--clr-gray-4);
+  color: var(--clr-gray-4);
+}
+.nativeInput {
+  display: none;
+}
+
+.text {
+  user-select: none;
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--clr-gray-4);
+}

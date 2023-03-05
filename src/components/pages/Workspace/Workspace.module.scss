@@ -1,0 +1,31 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1.4fr 2fr;
+  padding: 20px;
+  height: 100%;
+}
+
+.nativeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.form {
+  padding-right: 40px;
+  border-right: 1px solid var(--clr-black-1);
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-left: 40px;
+  font-size: 16px;
+  line-height: 140%;
+  color: var(--color-grey-white);
+}
+
+.description {
+  outline: none;
+  border: none;
+}

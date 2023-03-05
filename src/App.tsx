@@ -1,26 +1,107 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import styles from './App.module.scss'
+import { Navigate, Route, RouteProps, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { RoutesType } from './types/system/routes'
+import { Aside } from './components/modules'
+import { Paths } from 'src/utils/paths/paths'
+import { Header } from 'src/components/modules'
+import { AuthSignIn, AuthSignUp, Dashboard, Home, Templates, Workspace } from 'src/components/pages'
+import { useAppDispatch, useAppSelector } from 'src/store/store'
+import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
+import { sighInByToken } from 'src/store/slices/userSlice/userSlice'
 
 function App() {
+  const dispatch = useAppDispatch()
+  const token = localStorage.getItem('aw-ai-token')
+  const { pathname } = useLocation()
+
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!pathname.includes('auth')) {
+      dispatch(fetchSchemas())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (token) {
+      dispatch(sighInByToken({ token }))
+    }
+  }, [token])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.main}>
+      <div className={styles.wrapper}>
+        {!pathname.includes('auth') && <Aside />}
+        <div className={styles.layout}>
+          {!pathname.includes('auth') && <Header />}
+          <Routes>
+            {publicRoutes.map(r => {
+              return <Route key={r.path} path={r.path} element={<r.Component />} />
+            })}
+
+            {privateRoutes.map(r => {
+              if (!token) {
+                navigate('/auth/sign-in')
+                return null
+              }
+              return <Route key={r.path} path={r.path} element={<r.Component />} />
+            })}
+          </Routes>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+
+const publicRoutes: RoutesType[] = [
+  {
+    path: Paths.Root,
+    protected: false,
+    Component: Home,
+  },
+  {
+    path: Paths.AuthSignIn,
+    protected: false,
+    Component: AuthSignIn,
+  },
+  {
+    path: Paths.AuthSignUp,
+    protected: false,
+    Component: AuthSignUp,
+  },
+]
+
+const privateRoutes: RoutesType[] = [
+  {
+    path: Paths.Root,
+    protected: true,
+    Component: Workspace,
+  },
+  {
+    path: Paths.Dashboard,
+    protected: true,
+    Component: Dashboard,
+  },
+  {
+    path: Paths.Templates,
+    protected: true,
+    Component: Templates,
+  },
+  {
+    path: Paths.Workspace,
+    protected: true,
+    Component: Workspace,
+  },
+  {
+    path: Paths.AuthSignIn,
+    protected: false,
+    Component: AuthSignIn,
+  },
+  {
+    path: Paths.AuthSignUp,
+    protected: false,
+    Component: AuthSignUp,
+  },
+]

@@ -1,0 +1,96 @@
+.aside {
+  border-right: 1px solid var(--main-bg-contrast);
+  box-shadow: -1px 0px 10px 0 var(--main-bg-contrast);
+  background: var(--clr-black-1);
+  border-radius: 0 10px 10px 0;
+
+  padding-top: 20px;
+  width: 110px;
+  min-width: 110px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  font-family: Roboto, sans-serif !important;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-grey-white);
+  text-align: center;
+}
+
+.buttons {
+  position: relative;
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.marker {
+  position: absolute;
+  width: 100%;
+  height: 64px;
+  padding: 10px;
+  background: var(--clr-black-3);
+  top: 0;
+  left: 20px;
+  transition: 0.15s;
+  border-radius: 10px 0 0 10px;
+  opacity: 0;
+  animation: showMarker 0.1s 0.1s forwards linear;
+}
+
+.button {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.15s;
+  border-radius: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  &_active {
+    position: relative;
+    &_stroke {
+      svg path {
+        stroke: var(--clr-active);
+      }
+    }
+    &_fill {
+      svg path {
+        fill: var(--clr-active);
+      }
+    }
+  }
+
+  &_crutch {
+    position: absolute;
+    padding: 10px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+
+@keyframes showMarker {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
