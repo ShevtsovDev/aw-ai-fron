@@ -16,7 +16,7 @@ function App() {
   const { pathname } = useLocation()
 
   const navigate = useNavigate()
-  useEffect(() => {
+  /*useEffect(() => {
     if (!pathname.includes('auth')) {
       dispatch(fetchSchemas())
     }
@@ -26,7 +26,7 @@ function App() {
     if (token) {
       dispatch(sighInByToken({ token }))
     }
-  }, [token])
+  }, [token])*/
 
   return (
     <div className={styles.main}>
