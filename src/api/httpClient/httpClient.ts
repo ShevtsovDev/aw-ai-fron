@@ -22,7 +22,7 @@ export class HttpClient {
     }, function (error) {
       console.log(error)
       if (error.response.status === 401) {
-        window.location.href = '/auth/sign-in'
+        //window.location.href = '/auth/sign-in'
       }
       return Promise.reject(error);
     });
