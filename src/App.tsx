@@ -40,10 +40,6 @@ function App() {
             })}
 
             {privateRoutes.map(r => {
-              if (!token) {
-                navigate('/auth/sign-in')
-                return null
-              }
               return <Route key={r.path} path={r.path} element={<r.Component />} />
             })}
           </Routes>
