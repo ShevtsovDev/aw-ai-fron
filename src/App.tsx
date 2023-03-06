@@ -8,11 +8,12 @@ import { Header } from 'src/components/modules'
 import { AuthSignIn, AuthSignUp, Dashboard, Home, Templates, Workspace } from 'src/components/pages'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
-import { sighInByToken } from 'src/store/slices/userSlice/userSlice'
+import { getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
 
 function App() {
   const dispatch = useAppDispatch()
-  const token = localStorage.getItem('aw-ai-token')
+  const lsToken = localStorage.getItem('aw-ai-token')
+  const reduxToken = useAppSelector(getToken)
   const { pathname } = useLocation()
 
   const navigate = useNavigate()
@@ -23,10 +24,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (token) {
-      dispatch(sighInByToken({ token }))
+    if (lsToken) {
+      dispatch(sighInByToken({ token: lsToken }))
     }
-  }, [token])
+  }, [lsToken])
 
   return (
     <div className={styles.main}>
@@ -40,7 +41,7 @@ function App() {
             })}
 
             {privateRoutes.map(r => {
-              if (!token) {
+              if (!lsToken) {
                 navigate('/auth/sign-in')
                 return null
               }

@@ -10,6 +10,7 @@ import Checkbox from 'src/components/common/Form/Checkbox/Checkbox'
 import Textarea from 'src/components/common/Form/Textarea/Textarea'
 import { generateService } from 'src/api/services/generateService/generateService'
 import { fetchBalance } from 'src/store/slices/userSlice/userSlice'
+import { HashLoader } from 'react-spinners'
 
 type Form = {
   product_name: string
@@ -37,6 +38,7 @@ const Workspace = () => {
     }
   }, [schemaId])
 
+  const [loading, setLoading] = useState(false)
   const [text, setText] = useState<{ description: string; keywords?: string; params?: string }>({
     keywords: '',
     params: '',
@@ -44,12 +46,13 @@ const Workspace = () => {
   })
 
   const onSubmit = handleSubmit(data => {
-    console.log(data)
+    setLoading(true)
     if (type === 'ozon') {
       generateService.generateOzon(data).then(response => {
         setText(response.data)
         dispatch(fetchBalance())
       })
+        .finally(() => setLoading(false))
     }
 
     if (type === 'wildberries') {
@@ -57,6 +60,7 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
+        .finally(() => setLoading(false))
     }
 
     if (type === 'amazon') {
@@ -64,6 +68,7 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
+        .finally(() => setLoading(false))
     }
 
     if (type === 'telegram') {
@@ -71,10 +76,11 @@ const Workspace = () => {
       generateService.generateTelegramPost(data).then(response => {
         setText({description: response.data.post})
       })
+        .finally(() => setLoading(false))
     }
 
   })
-  console.log(schema?.schema)
+
   const Dataset = schema?.schema[0].fields.groups.map((g) => {
     return (
       <Group title={g.title} subtitle={g.subtitle} col={g.col} orientation={g.orientation as any}>
@@ -101,6 +107,7 @@ const Workspace = () => {
           <form className={styles.nativeForm} onSubmit={onSubmit}>
             {Dataset}
             <Button>Отправить</Button>
+            {loading && <div className={styles.loader}><HashLoader size={100} color="#36d7b7" /></div>}
           </form>
         </div>
         <div className={styles.result}>

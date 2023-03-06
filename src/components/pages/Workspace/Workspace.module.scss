@@ -1,18 +1,33 @@
 .wrapper {
   display: grid;
-  grid-template-columns: 1.4fr 2fr;
+  grid-template-columns: 1.45fr 2fr;
   padding: 20px;
   height: 100%;
 }
 
 .nativeForm {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  padding: 10px;
 }
 .form {
+
   padding-right: 40px;
   border-right: 1px solid var(--clr-black-1);
+}
+
+.loader {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110%;
+  height: 120%;
+  top: 0;
+  right: 0;
+  backdrop-filter: blur(4px);
 }
 
 .result {

@@ -3,11 +3,8 @@
   z-index: 10;
   top: 0;
 
-  width: 100%;
-  display: flex;
+  width: calc(100% - 110px);
   gap: 30px;
-  justify-content: center;
-  align-items: center;
   padding: 25px;
 
   font-weight: 400;
@@ -15,4 +12,31 @@
   line-height: 40px;
   letter-spacing: 0.03em;
   color: #FFFFFF;
+}
+
+.user {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 5px 15px;
+  border: 1px solid var(--color-grey-3);
+  border-radius: 10px;
+  width: max-content;
+  margin-left: auto;
+
+
+  &_name {
+    font-family: Montserrat, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    padding-right: 10px;
+    border-right: 1px solid var(--color-grey-3);
+  }
+
+  &_action {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

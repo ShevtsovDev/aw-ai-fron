@@ -32,6 +32,11 @@ export const userSlice = createSlice({
     endFetching: (state, action) => {
       state.loading = false
     },
+    logoutUser: (state) => {
+      localStorage.removeItem('aw-ai-token')
+      state.token = null
+      window.location.href = '/auth/sign-in'
+    }
   },
   extraReducers: builder => {
     builder.addCase(sighIn.fulfilled, (state, action) => {
@@ -99,6 +104,6 @@ export const getToken = (state: RootState) => state.user.token
 export const getBalance = (state: RootState) => state.user.balance
 export const getUser = (state: RootState) => state.user
 
-export const { startFetching, endFetching } = userSlice.actions
+export const { startFetching, endFetching, logoutUser } = userSlice.actions
 
 export default userSlice.reducer
