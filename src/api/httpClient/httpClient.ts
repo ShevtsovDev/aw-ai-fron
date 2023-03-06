@@ -5,7 +5,7 @@ export class HttpClient {
 
   constructor() {
     const _instance = axios.create({
-      baseURL: process.env.REACT_APP_API_HOST,
+      baseURL: process.env.REACT_APP_API_HOST_LOCAL,
     })
 
     _instance.interceptors.request.use(
