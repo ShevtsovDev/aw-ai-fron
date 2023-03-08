@@ -5,8 +5,10 @@ import InfoSmallBlock from 'src/components/modules/InfoBlocks/InfoSmallBlock/Inf
 import { TokenIcon } from 'src/components/common/Icon'
 import { Link } from 'react-router-dom'
 import { Paths } from 'src/utils/paths/paths'
-import { useAppSelector } from 'src/store/store'
-import { getBalance, getUser } from 'src/store/slices/userSlice/userSlice'
+import { useAppDispatch, useAppSelector } from 'src/store/store'
+import { fetchStatistic, getBalance, getStatistic, getUser } from 'src/store/slices/userSlice/userSlice'
+import LineChart from 'src/components/modules/Charts/LineChart/LineChart'
+import { useEffect } from 'react'
 
 
 const requests = 1950
@@ -14,6 +16,12 @@ const rang = 10
 
 const Dashboard = () => {
   const user = useAppSelector(getUser)
+  const statistic = useAppSelector(getStatistic)
+
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchStatistic())
+  }, [])
 
   return (
     <Layout>
@@ -36,7 +44,7 @@ const Dashboard = () => {
             <InfoSmallBlock>
               <div className={styles.block}>
                 <span className={styles.small_info_title}>Количество запросов</span>
-                <span className={styles.small_info_value}>{requests} <TokenIcon width={36} height={36} /></span>
+                <span className={styles.small_info_value}>{statistic.reduce((acc, cur) => acc + +cur.requestCount, 0)} <TokenIcon width={36} height={36} /></span>
                 <span className={styles.small_info_subtitle}>
                 <Link to={Paths.Payment}>Посмотреть статистику</Link>
               </span>
@@ -56,6 +64,9 @@ const Dashboard = () => {
           </div>
         </div>
         <div className={styles.right}></div>
+      </div>
+      <div className={styles.statistic}>
+        <LineChart statistic={statistic} />
       </div>
     </Layout>
   )

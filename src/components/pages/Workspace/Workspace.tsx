@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/store'
 import Checkbox from 'src/components/common/Form/Checkbox/Checkbox'
 import Textarea from 'src/components/common/Form/Textarea/Textarea'
 import { generateService } from 'src/api/services/generateService/generateService'
-import { fetchBalance } from 'src/store/slices/userSlice/userSlice'
+import { fetchBalance, fetchStatistic } from 'src/store/slices/userSlice/userSlice'
 import { HashLoader } from 'react-spinners'
 
 type Form = {
@@ -52,7 +52,10 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
-        .finally(() => setLoading(false))
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
     }
 
     if (type === 'wildberries') {
@@ -60,7 +63,10 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
-        .finally(() => setLoading(false))
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
     }
 
     if (type === 'amazon') {
@@ -68,7 +74,10 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
-        .finally(() => setLoading(false))
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
     }
 
     if (type === 'telegram') {
@@ -76,7 +85,10 @@ const Workspace = () => {
       generateService.generateTelegramPost(data).then(response => {
         setText({description: response.data.post})
       })
-        .finally(() => setLoading(false))
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
     }
 
   })

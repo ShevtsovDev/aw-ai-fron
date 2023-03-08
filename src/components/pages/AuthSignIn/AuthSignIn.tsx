@@ -36,7 +36,8 @@ const AuthSignIn = () => {
             <Input control={control} name='password'  type='password' />
           </Group>
           <div className={styles.actions}>
-            <Button>Войти</Button>
+            <Button type='button' onClick={() => navigate('/auth/sign-up')}>Регистрация</Button>
+            <Button type="submit">Войти</Button>
           </div>
         </form>
       </div>

@@ -7,7 +7,7 @@ import {
   InitialUserState,
   SighInPayload,
   SighUpPayload,
-  SignInResponse,
+  SignInResponse, Statistic,
 } from 'src/store/slices/userSlice/userSlice.types'
 import { authService } from 'src/api/services/authService/authService'
 import { userService } from 'src/api/services/userService/userService'
@@ -17,7 +17,8 @@ const initialState: InitialUserState = {
   balance: null,
   roles: null,
   user: null,
-  token: null
+  token: null,
+  statistic: []
 }
 
 const SLICE_NAME = 'USER_SLICE'
@@ -53,6 +54,9 @@ export const userSlice = createSlice({
       state.balance = action.payload.balance
       state.roles = action.payload.roles
       localStorage.setItem('aw-ai-token', action.payload.token)
+    })
+    builder.addCase(fetchStatistic.fulfilled, (state, action) => {
+      state.statistic = action.payload
     })
   }
 })
@@ -100,8 +104,19 @@ export const fetchBalance = createAsyncThunk(
   }
 )
 
+export const fetchStatistic = createAsyncThunk<Statistic[]>(
+  `${SLICE_NAME}/fetchStatistic`,
+  async (arg, thunkAPI) => {
+    const response = await userService.fetchStatistic<{ statistic: Statistic[]}>()
+    console.log(response)
+    return response.statistic
+
+  }
+)
+
 export const getToken = (state: RootState) => state.user.token
 export const getBalance = (state: RootState) => state.user.balance
+export const getStatistic = (state: RootState) => state.user.statistic
 export const getUser = (state: RootState) => state.user
 
 export const { startFetching, endFetching, logoutUser } = userSlice.actions

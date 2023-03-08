@@ -16,6 +16,7 @@ export const Endpoints = {
   },
   user: {
     fetchUserById: '/user/',
-    fetchBalance: '/balance/own'
+    fetchBalance: '/balance/own',
+    fetchStatistic: '/user/statistic'
   }
 }

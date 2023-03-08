@@ -10,6 +10,7 @@ export type InitialUserState = {
     email: string,
     name: string,
   } | null
+  statistic: Statistic[]
 }
 
 export type FetchSchemas = {
@@ -37,4 +38,10 @@ export type SignInResponse= {
     email: string,
     name: string,
   }
+}
+
+export type Statistic = {
+  day: string,
+  requestCount: string,
+  totalTokens: string
 }

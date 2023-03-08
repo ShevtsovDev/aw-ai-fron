@@ -14,7 +14,6 @@ export class HttpClient {
         return config
       },
       function (error) {
-        console.log(error)
         return Promise.reject(error)
       },
     )

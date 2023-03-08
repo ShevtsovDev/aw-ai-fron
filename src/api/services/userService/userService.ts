@@ -13,6 +13,11 @@ class UserService extends HttpClient {
     return response.data
   }
 
+  fetchStatistic = async <T>() => {
+    const response = await this.instance.get<T>(Endpoints.user.fetchStatistic)
+    return response.data
+  }
+
 
 }
 
