@@ -43,4 +43,13 @@
 .description {
   outline: none;
   border: none;
+
+  p {
+    display: inline-block;
+    padding-top: 15px !important;
+  }
+
+  ul {
+    padding-top: 15px;
+  }
 }

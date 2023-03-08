@@ -8,4 +8,15 @@
   margin-right: 40px;
   margin-top: 100px;
   color: var(--color-white);
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    width: 4px; /* ширина полосы прокрутки */
+    height: 4px; /* высота полосы прокрутки */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: var(--main-bg-contrast); /* цвет фона полосы прокрутки */
+  }
 }

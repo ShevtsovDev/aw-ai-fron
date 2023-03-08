@@ -84,9 +84,6 @@ const Home = () => {
               <div className={styles.text_title}>
                 <div>Шаг 5. Радуемся и живем полной жизнью, а рутину на себя возьмет Aw-AI</div>
               </div>
-              <div className={styles.text_subtitle}>
-                <p>Не спишите идти заваривать чай, результат скоро будет на месте!</p>
-              </div>
               <div className={styles.text_content}>
                 <img src={step6} alt='' />
               </div>
