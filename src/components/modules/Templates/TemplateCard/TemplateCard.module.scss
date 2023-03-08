@@ -2,13 +2,13 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 35px;
   padding: 20px;
   background: var(--clr-gray-3);
   border: 1px solid var(--clr-gray-2);
   box-shadow: 1px 1px 8px -1px var(--clr-shadow-1);
   border-radius: 10px;
-  height: 170px;
+  height: 230px;
   transition: transform 0.12s, border-color 0.2s, border-radius 0.3s;
   //user-select: none;
 
@@ -65,7 +65,7 @@
   }
 
   &_subtitle {
-    max-width: 65%;
+    max-width: 85%;
     font-weight: 500;
     font-size: 12px;
     line-height: 14px;

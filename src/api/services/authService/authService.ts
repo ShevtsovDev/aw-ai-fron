@@ -10,21 +10,23 @@ class AuthService extends HttpClient {
       this.recreateInstance()
       return response.data
     } catch (e: any) {
-      throw Error(e.message)
+      return Promise.reject(e)
     }
   }
 
   signInWithToken = async <T>({ token }: { token: string }) => {
     try {
       const response = await this.instance.post<T>(Endpoints.auth.signInWithToken, { token })
+
       return response.data
     }catch (e: any) {
       throw Error(e.message)
     }
   }
 
-  signUpWithPasswordAndEmail = async (data: {email: string, password: string, name: string}) => {
+  signUpWithPasswordAndEmail = async <T>(data: {email: string, password: string, name: string}): Promise<T> => {
     const response = await this.instance.post(Endpoints.auth.signUpWithPasswordAndEmail, data)
+    this.recreateInstance()
     return response.data
   }
 }

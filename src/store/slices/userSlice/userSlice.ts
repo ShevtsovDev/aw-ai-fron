@@ -44,16 +44,26 @@ export const userSlice = createSlice({
       state.user = action.payload.user
       state.balance = action.payload.balance
       state.roles = action.payload.roles
+      state.token = action.payload.token
+      localStorage.setItem('aw-ai-token', action.payload.token)
+    })
+    builder.addCase(singUp.fulfilled, (state, action) => {
+      state.user = action.payload.user
+      state.balance = action.payload.balance
+      state.roles = action.payload.roles
+      state.token = action.payload.token
       localStorage.setItem('aw-ai-token', action.payload.token)
     })
     builder.addCase(fetchBalance.fulfilled, (state, action) => {
       state.balance = action.payload
     })
     builder.addCase(sighInByToken.fulfilled, (state, action) => {
+      console.log(action.payload)
       state.user = action.payload.user
       state.balance = action.payload.balance
       state.roles = action.payload.roles
       localStorage.setItem('aw-ai-token', action.payload.token)
+      setTimeout(() => {}, 500)
     })
     builder.addCase(fetchStatistic.fulfilled, (state, action) => {
       state.statistic = action.payload
@@ -65,6 +75,7 @@ export const sighIn = createAsyncThunk<SignInResponse, SighInPayload>(
   `${SLICE_NAME}/signIn`,
   async (arg, thunkAPI) => {
     const response = await authService.singInWithPasswordAndEmail<SignInResponse>(arg)
+    console.log(response)
     return response
   }
 )
@@ -72,18 +83,19 @@ export const sighIn = createAsyncThunk<SignInResponse, SighInPayload>(
 export const sighInByToken = createAsyncThunk<SignInResponse, { token: string }>(
   `${SLICE_NAME}/sighInByToken`,
   async (arg, thunkAPI) => {
+    console.log(arg)
     const response = await authService.signInWithToken<SignInResponse>(arg)
     console.log(response)
     return response
   },
 )
 
-export const sighUp = createAsyncThunk<void, SighUpPayload>(
-  `${SLICE_NAME}/signIn`,
+export const singUp = createAsyncThunk<SignInResponse, SighUpPayload>(
+  `${SLICE_NAME}/signUp`,
   async (arg, thunkAPI) => {
-    const response = await authService.signUpWithPasswordAndEmail(arg)
+    const response = await authService.signUpWithPasswordAndEmail<SignInResponse>(arg)
     console.log(response)
-
+    return response
   }
 )
 

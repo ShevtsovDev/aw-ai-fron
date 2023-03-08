@@ -11,6 +11,7 @@ import Textarea from 'src/components/common/Form/Textarea/Textarea'
 import { generateService } from 'src/api/services/generateService/generateService'
 import { fetchBalance, fetchStatistic } from 'src/store/slices/userSlice/userSlice'
 import { HashLoader } from 'react-spinners'
+import { toast } from 'react-toastify'
 
 type Form = {
   product_name: string
@@ -19,7 +20,7 @@ type Form = {
   need_seo: boolean
 }
 
-type ParamType = 'ozon' | 'wildberries' | 'amazon' | 'telegram'
+type ParamType = 'ozon' | 'wildberries' | 'amazon' | 'telegram' | 'rewrite' | 'post'
 
 const Workspace = () => {
   const { register, watch, getValues, handleSubmit, control } = useForm<Form>({ mode: 'onBlur' })
@@ -52,6 +53,12 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
         .finally(() => {
           dispatch(fetchStatistic())
           setLoading(false)
@@ -63,6 +70,12 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
         .finally(() => {
           dispatch(fetchStatistic())
           setLoading(false)
@@ -74,6 +87,12 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
         .finally(() => {
           dispatch(fetchStatistic())
           setLoading(false)
@@ -85,6 +104,46 @@ const Workspace = () => {
       generateService.generateTelegramPost(data).then(response => {
         setText({description: response.data.post})
       })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
+    }
+
+    if (type === 'rewrite') {
+      // @ts-ignore
+      generateService.generateRewriteText(data).then(response => {
+        setText({description: response.text})
+      })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
+    }
+
+    if (type === 'post') {
+      // @ts-ignore
+      generateService.generatePostText(data).then(response => {
+        setText({description: response.text})
+      })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
         .finally(() => {
           dispatch(fetchStatistic())
           setLoading(false)

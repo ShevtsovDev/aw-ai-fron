@@ -9,6 +9,12 @@ export const Endpoints = {
       telegram: '/generate/post/telegram'
     }
   },
+  post: {
+    text: '/rewrite/news'
+  },
+  rewrite: {
+    text: '/rewrite/text'
+  },
   auth: {
     singInWithPasswordAndEmail: '/auth/sign-in',
     signInWithToken: '/auth/token',

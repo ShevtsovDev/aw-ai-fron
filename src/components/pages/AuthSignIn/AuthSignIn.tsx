@@ -3,10 +3,11 @@ import { Layout } from 'src/components/modules'
 import { Button, Group, Input } from 'src/components/common'
 import { useForm } from 'react-hook-form'
 import { authService } from 'src/api/services/authService/authService'
-import { sighIn, sighUp } from 'src/store/slices/userSlice/userSlice'
+import { sighIn, singUp } from 'src/store/slices/userSlice/userSlice'
 import { useAppDispatch } from 'src/store/store'
 import { useNavigate } from 'react-router-dom'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
+import { toast } from 'react-toastify'
 
 type FormType = {
   email: string,
@@ -23,6 +24,11 @@ const AuthSignIn = () => {
       .then(() => {
         dispatch(fetchSchemas())
         navigate('/')
+      })
+      .catch((e) => {
+        toast(e.message, {
+          type: 'error',
+        })
       })
   })
   return (

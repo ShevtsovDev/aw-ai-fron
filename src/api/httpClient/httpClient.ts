@@ -23,14 +23,17 @@ export class HttpClient {
         return config
       },
       function (error) {
-        console.log(error)
+
         if (error.response.status === 401) {
           if (window.location.href.includes('auth')) {
-            return
+
+          } else {
+            window.location.href = '/auth/sign-in'
           }
-          window.location.href = '/auth/sign-in'
+
         }
-        return Promise.reject(error)
+        return Promise.reject(error.response.data.message)
+
       },
     )
 

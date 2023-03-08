@@ -1,6 +1,14 @@
 import styles from './TemplateCard.module.scss'
 import { FC, ReactNode } from 'react'
-import { Amazon, Ozon, Wb, Telegram, FavoriteIcon } from 'src/components/common/Icon'
+import {
+  Amazon,
+  Ozon,
+  Wb,
+  Telegram,
+  FavoriteIcon,
+  ReWriteIcon,
+  NewsIcon,
+} from 'src/components/common/Icon'
 import { TemplateCardFC } from 'src/components/modules/Templates/Template.types'
 import { TemplateBadge } from 'src/components/modules'
 import cn from 'classnames'
@@ -14,6 +22,8 @@ const associateIcon = {
   'amazon': Amazon,
   'wb': Wb,
   'telegram': Telegram,
+  'rewrite': ReWriteIcon,
+  'post': NewsIcon,
 }
 
 const TemplateCard: FC<TemplateCardFC> = (props) => {

@@ -9,6 +9,7 @@ import { AuthSignIn, AuthSignUp, Dashboard, Home, Templates, Workspace } from 's
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 import { getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -41,7 +42,7 @@ function App() {
             })}
 
             {privateRoutes.map(r => {
-              if (!lsToken) {
+              if (!lsToken && !pathname.includes('auth')) {
                 navigate('/auth/sign-in')
                 return null
               }
@@ -50,6 +51,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

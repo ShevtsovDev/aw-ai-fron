@@ -8,6 +8,8 @@ import { store } from 'src/store/store'
 import './index.scss'
 import './assets/variables/variables.css'
 import 'react-quill/dist/quill.snow.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
 
 
 const root = ReactDOM.createRoot(

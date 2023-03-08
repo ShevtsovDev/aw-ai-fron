@@ -53,6 +53,26 @@ class GenerateService extends HttpClient {
       throw Error(e.message)
     }
   }
+
+  generateRewriteText = async (body: PostBody) => {
+    try {
+      const response = await this.instance.post(Endpoints.rewrite.text, body)
+
+      return response.data
+    }catch (e: any) {
+      throw Error(e.message)
+    }
+  }
+
+  generatePostText = async (body: PostBody) => {
+    try {
+      const response = await this.instance.post(Endpoints.post.text, body)
+
+      return response.data
+    }catch (e: any) {
+      throw Error(e.message)
+    }
+  }
 }
 
 export const generateService = new GenerateService()

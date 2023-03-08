@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form'
 import { authService } from 'src/api/services/authService/authService'
 import { Button, Group, Input } from 'src/components/common'
 import { useAppDispatch } from 'src/store/store'
-import { sighUp } from 'src/store/slices/userSlice/userSlice'
+import { singUp } from 'src/store/slices/userSlice/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 
 type FormType = {
   email: string
@@ -17,9 +19,17 @@ const AuthSignUp = () => {
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm<FormType>()
   const onSignUp = handleSubmit(data => {
-    dispatch(sighUp(data))
+    dispatch(singUp(data))
       .unwrap()
-      .then(() => navigate('/auth/sign-in'))
+      .then(() => {
+        dispatch(fetchSchemas())
+        navigate('/')
+      })
+      .catch((e) => {
+        toast(e.message, {
+          type: 'error',
+        })
+      })
   })
   return (
     <div className={styles.wrapper}>
