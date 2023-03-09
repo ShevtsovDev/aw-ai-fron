@@ -20,7 +20,7 @@ type Form = {
   need_seo: boolean
 }
 
-type ParamType = 'ozon' | 'wildberries' | 'amazon' | 'telegram' | 'rewrite' | 'post'
+type ParamType = 'ozon' | 'wb' | 'amazon' | 'telegram' | 'rewrite' | 'post'
 
 const Workspace = () => {
   const { register, watch, getValues, handleSubmit, control } = useForm<Form>({ mode: 'onBlur' })
@@ -65,7 +65,7 @@ const Workspace = () => {
         })
     }
 
-    if (type === 'wildberries') {
+    if (type === 'wb') {
       generateService.generateWb(data).then(response => {
         setText(response.data)
         dispatch(fetchBalance())
