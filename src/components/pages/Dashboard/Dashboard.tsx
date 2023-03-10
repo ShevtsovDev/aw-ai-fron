@@ -52,7 +52,7 @@ const Dashboard = () => {
               </div>
             </InfoSmallBlock>
 
-            <InfoSmallBlock>
+            {/*<InfoSmallBlock>
               <div className={styles.block}>
                 <span className={styles.small_info_title}>Ваш ранг</span>
                 <span className={styles.small_info_value}>{rang} <TokenIcon width={36} height={36} /></span>
@@ -60,10 +60,10 @@ const Dashboard = () => {
               </span>
                 <img className={styles.small_info_img} src={money} alt='' />
               </div>
-            </InfoSmallBlock>
+            </InfoSmallBlock>*/}
           </div>
         </div>
-        <div className={styles.right}></div>
+        {/*<div className={styles.right}></div>*/}
       </div>
       <div className={styles.statistic}>
         <LineChart statistic={statistic} />

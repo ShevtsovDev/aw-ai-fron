@@ -8,13 +8,16 @@ import { Header } from 'src/components/modules'
 import { AuthSignIn, AuthSignUp, Dashboard, Home, Templates, Workspace } from 'src/components/pages'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
-import { getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
+import { getRoles, getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
 import { ToastContainer } from 'react-toastify'
+import { History, Statistic, Users } from 'src/components/pages/Admin'
+import { Roles } from 'src/types/system/roles'
 
 function App() {
   const dispatch = useAppDispatch()
   const lsToken = localStorage.getItem('aw-ai-token')
   const reduxToken = useAppSelector(getToken)
+  const roles = useAppSelector(getRoles)
   const { pathname } = useLocation()
 
   const navigate = useNavigate()
@@ -48,6 +51,11 @@ function App() {
               }
               return <Route key={r.path} path={r.path} element={<r.Component />} />
             })}
+            {roles?.some(i => i === Roles.admin) && (
+              adminRoutes.map(r => {
+                return <Route key={r.path} path={r.path} element={<r.Component />} />
+              })
+            )}
           </Routes>
         </div>
       </div>
@@ -106,5 +114,23 @@ const privateRoutes: RoutesType[] = [
     path: Paths.AuthSignUp,
     protected: false,
     Component: AuthSignUp,
+  },
+]
+
+const adminRoutes: RoutesType[] = [
+  {
+    path: Paths.Admin_Users,
+    Component: Users,
+    protected: true,
+  },
+  {
+    path: Paths.Admin_Statistic,
+    Component: Statistic,
+    protected: true,
+  },
+  {
+    path: Paths.Admin_History,
+    Component: History,
+    protected: true,
   },
 ]

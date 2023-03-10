@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { Paths } from 'src/utils/paths/paths'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { getSchemas, setSelectedSchema } from 'src/store/slices/schemaSlice/schemaSlice'
+import { statService } from 'src/api/services/statService/statService'
 
 const associateIcon = {
   'ozon': Ozon,
@@ -33,6 +34,7 @@ const TemplateCard: FC<TemplateCardFC> = (props) => {
   const navigate = useNavigate()
 
   const goTo = () => {
+    statService.setStat(id)
     navigate(`/workspace?schema=${id}&type=${icon}`)
   }
   const Icon = associateIcon[icon]

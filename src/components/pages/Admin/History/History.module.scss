@@ -1,0 +1,7 @@
+.text {
+  overflow: hidden; /* скрыть текст, который выходит за пределы блока */
+  text-overflow: ellipsis; /* добавить многоточие в конце строки */
+  display: -webkit-box; /* установить тип контейнера */
+  -webkit-line-clamp: 2; /* количество строк */
+  -webkit-box-orient: vertical; /* ориентация контейнера */
+}

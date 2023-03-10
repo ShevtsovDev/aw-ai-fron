@@ -1,23 +1,19 @@
 import styles from './Home.module.scss'
 import { Layout } from 'src/components/modules'
-import money from 'src/assets/images/infoBlock/money.png'
-import InfoSmallBlock from 'src/components/modules/InfoBlocks/InfoSmallBlock/InfoSmallBlock'
-import { TokenIcon } from 'src/components/common/Icon'
-import { Link } from 'react-router-dom'
-import { Paths } from 'src/utils/paths/paths'
 import step1 from 'src/assets/images/guide/steep1.png'
 import step2 from 'src/assets/images/guide/step2.png'
 import step3 from 'src/assets/images/guide/step3.png'
 import step4 from 'src/assets/images/guide/step4.png'
 import load from 'src/assets/images/guide/load.png'
-import step5 from 'src/assets/images/guide/steep5.png'
 import step6 from 'src/assets/images/guide/steep6.png'
+import { useNavigate } from 'react-router-dom'
 
 const balance = 2000
 const requests = 1950
 const rang = 10
 
 const Home = () => {
+  const navigate = useNavigate()
   return (
     <Layout>
       <div className={styles.wrapper}>
@@ -89,6 +85,14 @@ const Home = () => {
               </div>
             </div>
 
+            <div>
+              <div className={styles.text_title}>
+                <div>Шаг 6. А теперь сами попробуйте наши сервисы</div>
+              </div>
+              <div className={styles.text_content}>
+                <div onClick={() => navigate('/templates')} className={styles.button}>Выбрать шаблон</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

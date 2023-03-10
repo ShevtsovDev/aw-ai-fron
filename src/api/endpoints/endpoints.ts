@@ -24,5 +24,10 @@ export const Endpoints = {
     fetchUserById: '/user/',
     fetchBalance: '/balance/own',
     fetchStatistic: '/user/statistic'
+  },
+  admin: {
+    users: '/admin/users',
+    statistic: '/admin/statistic',
+    history: '/admin/history',
   }
 }

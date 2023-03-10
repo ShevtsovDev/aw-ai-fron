@@ -34,16 +34,19 @@ const AuthSignIn = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.form}>
+        <div className={styles.title}>
+          Войти в аккаунт
+        </div>
         <form className={styles.nativeForm} onSubmit={onSignIn}>
-          <Group title='Email:'>
+          <Group title='Почта'>
             <Input control={control} name='email' />
           </Group>
-          <Group title='Password'>
+          <Group title='Пароль'>
             <Input control={control} name='password'  type='password' />
           </Group>
           <div className={styles.actions}>
-            <Button type='button' onClick={() => navigate('/auth/sign-up')}>Регистрация</Button>
             <Button type="submit">Войти</Button>
+            <Button type='button' onClick={() => navigate('/auth/sign-up')}>Перейти к созданию аккаунта</Button>
           </div>
         </form>
       </div>

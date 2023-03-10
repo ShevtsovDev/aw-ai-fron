@@ -26,7 +26,6 @@ ChartJS.register(
 
 // @ts-ignore
 const formatXAxisLabel = (value, index, values) => {
-  console.log(value)
   const date = dayjs(value);
   const weekday = date.format("ddd");
   const dayOfMonth = date.format("D");
@@ -54,7 +53,6 @@ const LineChart = ({ statistic }: { statistic: Statistic[] }) => {
     return daysArray;
   }
 
-  console.log()
   const data: ChartData<"line", (number | Point | null)[], unknown> = {
     labels: getDaysOfMonth(),
     datasets: [
@@ -72,7 +70,7 @@ const LineChart = ({ statistic }: { statistic: Statistic[] }) => {
   };
 
   return (
-    <Line data={data} />
+    <Line data={data} width='600px' />
   );
 }
 

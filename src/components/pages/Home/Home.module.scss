@@ -55,3 +55,17 @@
     }
   }
 }
+
+.button {
+  cursor: pointer;
+  font-size: 30px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--clr-bage-stable-text);
+  background: var(--clr-bage-stable-bg);
+  transition: 0.15s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}

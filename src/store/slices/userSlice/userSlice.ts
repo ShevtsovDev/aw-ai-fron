@@ -58,7 +58,6 @@ export const userSlice = createSlice({
       state.balance = action.payload
     })
     builder.addCase(sighInByToken.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.user = action.payload.user
       state.balance = action.payload.balance
       state.roles = action.payload.roles
@@ -75,7 +74,7 @@ export const sighIn = createAsyncThunk<SignInResponse, SighInPayload>(
   `${SLICE_NAME}/signIn`,
   async (arg, thunkAPI) => {
     const response = await authService.singInWithPasswordAndEmail<SignInResponse>(arg)
-    console.log(response)
+
     return response
   }
 )
@@ -83,9 +82,7 @@ export const sighIn = createAsyncThunk<SignInResponse, SighInPayload>(
 export const sighInByToken = createAsyncThunk<SignInResponse, { token: string }>(
   `${SLICE_NAME}/sighInByToken`,
   async (arg, thunkAPI) => {
-    console.log(arg)
     const response = await authService.signInWithToken<SignInResponse>(arg)
-    console.log(response)
     return response
   },
 )
@@ -94,7 +91,6 @@ export const singUp = createAsyncThunk<SignInResponse, SighUpPayload>(
   `${SLICE_NAME}/signUp`,
   async (arg, thunkAPI) => {
     const response = await authService.signUpWithPasswordAndEmail<SignInResponse>(arg)
-    console.log(response)
     return response
   }
 )
@@ -120,7 +116,6 @@ export const fetchStatistic = createAsyncThunk<Statistic[]>(
   `${SLICE_NAME}/fetchStatistic`,
   async (arg, thunkAPI) => {
     const response = await userService.fetchStatistic<{ statistic: Statistic[]}>()
-    console.log(response)
     return response.statistic
 
   }
@@ -130,6 +125,7 @@ export const getToken = (state: RootState) => state.user.token
 export const getBalance = (state: RootState) => state.user.balance
 export const getStatistic = (state: RootState) => state.user.statistic
 export const getUser = (state: RootState) => state.user
+export const getRoles = (state: RootState) => state.user.roles
 
 export const { startFetching, endFetching, logoutUser } = userSlice.actions
 

@@ -10,18 +10,29 @@ import './assets/variables/variables.css'
 import 'react-quill/dist/quill.snow.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
-
+import { StyleProvider } from '@ant-design/cssinjs';
+import { ConfigProvider, theme, ThemeConfig } from 'antd'
+import { Theme } from 'antd/es/config-provider/context'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 )
+
+const _theme: ThemeConfig = {
+  algorithm: theme.darkAlgorithm,
+}
+
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <ConfigProvider theme={_theme}>
+      <StyleProvider hashPriority='high'>
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </StyleProvider>
+    </ConfigProvider>
   </React.StrictMode>,
 )
 
