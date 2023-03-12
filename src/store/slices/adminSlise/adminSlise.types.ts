@@ -8,6 +8,11 @@ export type Role = {
   name: string
 }
 
+export type BalanceType = {
+  readonly id: number,
+  readonly amount: number,
+}
+
 export type UserType = {
   readonly id: number,
   readonly email: string,
@@ -16,11 +21,20 @@ export type UserType = {
   readonly createdAt: string,
   readonly updatedAt: string
   readonly Roles: Role[]
+  readonly Balance: BalanceType
+}
+
+export type ServiceType = {
+  readonly id: number,
+  readonly title: string,
+  readonly subtitle: string,
 }
 
 export type HistoryType = {
   readonly id: number,
   readonly User: UserType,
+  readonly Service: ServiceType
+  readonly serviceId: number,
   readonly createdAt: string,
   readonly updatedAt: string,
   readonly requestEndpoint: string,

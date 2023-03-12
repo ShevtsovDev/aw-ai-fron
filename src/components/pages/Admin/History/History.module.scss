@@ -5,3 +5,17 @@
   -webkit-line-clamp: 2; /* количество строк */
   -webkit-box-orient: vertical; /* ориентация контейнера */
 }
+
+.drawer {
+  color: var(--color-grey-white);
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.item {
+  display: flex;
+  gap: 10px;
+}

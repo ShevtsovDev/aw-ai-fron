@@ -1,4 +1,4 @@
-import styles from './Users.module.scss'
+
 import { Table, TablePaginationConfig, Tag } from 'antd'
 import { Layout } from 'src/components/modules'
 import { useEffect, useState } from 'react'
@@ -60,6 +60,12 @@ const columns: ColumnsType<UserType> = [
     }
   },
   {
+    title: 'Balance',
+    dataIndex: 'Balance',
+    key: 'Balance',
+    render: (row) => row.amount
+  },
+  {
     title: 'Created',
     dataIndex: 'createdAt',
     key: 'createdAt',
@@ -94,14 +100,6 @@ const Users = () => {
   const [meta, setMeta] = useState<Meta>()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const navigate = useNavigate()
-
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
 
   useEffect(() => {
     if (!loading) {

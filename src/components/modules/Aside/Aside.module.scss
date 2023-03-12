@@ -3,7 +3,7 @@
   border-radius: 0 10px 10px 0;
 
   padding-top: 20px;
-  width: 110px;
+  width: 190px;
   min-width: 110px;
   overflow: hidden;
 
@@ -26,7 +26,7 @@
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+
   gap: 50px;
 }
 
@@ -37,20 +37,22 @@
   padding: 10px;
   background: var(--clr-black-3);
   top: 0;
-  left: 20px;
+  left: 0;
   transition: 0.15s;
-  border-radius: 10px 0 0 10px;
   opacity: 0;
   animation: showMarker 0.1s 0.1s forwards linear;
 }
 
 .button {
+  padding-inline: 20px;
   position: relative;
   z-index: 4;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 8px;
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
+  color: var(--color-grey-white);
   line-height: 20px;
   font-weight: 500;
   text-decoration: none;
@@ -59,8 +61,15 @@
   padding-top: 15px;
   padding-bottom: 15px;
 
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+
   &_active {
     position: relative;
+    color: var(--clr-active);
     &_stroke {
       svg path {
         stroke: var(--clr-active);
@@ -69,6 +78,21 @@
     &_fill {
       svg path {
         fill: var(--clr-active);
+      }
+    }
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+    color: var(--color-grey-4);
+    &_stroke {
+      svg path {
+        stroke: var(--color-grey-4);
+      }
+    }
+    &_fill {
+      svg path {
+        fill: var(--color-grey-4);
       }
     }
   }

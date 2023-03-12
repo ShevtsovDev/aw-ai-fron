@@ -7,6 +7,9 @@ export const Endpoints = {
     },
     post: {
       telegram: '/generate/post/telegram'
+    },
+    title: {
+      tiktok: '/generate/tiktok/title'
     }
   },
   post: {

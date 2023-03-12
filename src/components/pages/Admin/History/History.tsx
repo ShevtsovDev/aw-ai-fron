@@ -1,8 +1,14 @@
 import styles from './History.module.scss'
 import {
   Button,
+  Col,
+  Descriptions,
+  Divider,
+  Drawer,
   Input,
-  InputNumber, InputRef,
+  InputNumber,
+  InputRef,
+  Row,
   Space,
   Table,
   TableColumnsType,
@@ -18,7 +24,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Meta } from 'src/types/system/meta'
 import { FilterConfirmProps, FilterValue, SorterResult } from 'antd/es/table/interface'
 import { SearchOutlined } from '@ant-design/icons'
-import Highlighter from 'react-highlight-words';
+import Highlighter from 'react-highlight-words'
 
 
 interface TableParams {
@@ -47,6 +53,13 @@ const expandedRowRender = (data: any) => {
       render: () => null,
     },
     {
+      width: '8%',
+      title: '',
+      dataIndex: 'serviceId',
+      key: 'serviceId',
+      render: () => null,
+    },
+    {
       width: '25%',
       title: '',
       dataIndex: 'requestText',
@@ -65,13 +78,6 @@ const expandedRowRender = (data: any) => {
       title: '',
       dataIndex: 'tokensSpent',
       key: 'tokensSpent',
-      render: () => null,
-    },
-    {
-      width: '10%',
-      title: 'Request Endpoint',
-      dataIndex: 'requestEndpoint',
-      key: 'requestEndpoint',
       render: () => null,
     },
     {
@@ -137,31 +143,36 @@ const History = () => {
     setSearchParams(newParams)
   }
 
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = useRef<InputRef>(null);
+  const [searchText, setSearchText] = useState('')
+  const [searchedColumn, setSearchedColumn] = useState('')
+  const searchInput = useRef<InputRef>(null)
 
+  const [drawerUserState, setDrawerUserState] = useState(false)
+  const [drawerServiceState, setDrawerServiceState] = useState(false)
+  const [drawerInfoState, setDrawerInfoState] = useState<HistoryType | null>(null)
+
+  const toggleDrawer = () => setDrawerUserState(prev => !prev)
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
     dataIndex: string,
   ) => {
-    confirm();
+    confirm()
     const newParams = new URLSearchParams(searchParams)
     if (selectedKeys[0] && dataIndex) {
       newParams.set('filter', JSON.stringify([[dataIndex], [selectedKeys[0]]]))
     }
     setSearchParams(newParams)
 
-  };
+  }
 
   const handleReset = (clearFilters: () => void) => {
-    clearFilters();
+    clearFilters()
     const newParams = new URLSearchParams(searchParams)
     newParams.delete('filter')
     setSearchParams(newParams)
-    setSearchText('');
-  };
+    setSearchText('')
+  }
 
   const getColumnSearchProps = (dataIndex: string): ColumnType<HistoryType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -176,17 +187,17 @@ const History = () => {
         />
         <Space>
           <Button
-            type="primary"
+            type='primary'
             onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
             icon={<SearchOutlined />}
-            size="small"
+            size='small'
             style={{ width: 90 }}
           >
             Search
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
+            size='small'
             style={{ width: 90 }}
           >
             Reset
@@ -199,7 +210,7 @@ const History = () => {
     ),
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
+        setTimeout(() => searchInput.current?.select(), 100)
       }
     },
     render: (text) =>
@@ -213,7 +224,7 @@ const History = () => {
       ) : (
         text
       ),
-  });
+  })
 
   const columns: TableColumnsType<HistoryType> = [
     {
@@ -242,21 +253,49 @@ const History = () => {
           value: 'Category 2',
         },
       ],
-      ...getColumnSearchProps('UserId')
+      ...getColumnSearchProps('UserId'),
+      render: (row, data) => {
+        const onClick = () => {
+          setDrawerInfoState(data)
+          setDrawerUserState(true)
+        }
+        return (
+          <>
+            <Button type='link' onClick={onClick}>{row}</Button>
+          </>
+        )
+      },
+    },
+    {
+      width: '8%',
+      title: 'Service ID',
+      dataIndex: 'serviceId',
+      key: 'serviceId',
+      render: (row, data) => {
+        const onClick = () => {
+          setDrawerInfoState(data)
+          setDrawerServiceState(true)
+        }
+        return (
+          <>
+            <Button type='link' onClick={onClick}>{row}</Button>
+          </>
+        )
+      },
     },
     {
       width: '25%',
       title: 'Request Text',
       dataIndex: 'requestText',
       key: 'requestText',
-      render: value => <div className={styles.text} dangerouslySetInnerHTML={{__html: value}}/>
+      render: value => <div className={styles.text} dangerouslySetInnerHTML={{ __html: value }} />,
     },
     {
       width: '25%',
       title: 'Response Text',
       dataIndex: 'responseText',
       key: 'responseText',
-      render: value => <div className={styles.text} dangerouslySetInnerHTML={{__html: value}}/>
+      render: value => <div className={styles.text} dangerouslySetInnerHTML={{ __html: value }} />,
     },
     {
       width: '20%',
@@ -266,12 +305,6 @@ const History = () => {
       sorter: true,
     },
     {
-      width: '10%',
-      title: 'Request Endpoint',
-      dataIndex: 'requestEndpoint',
-      key: 'requestEndpoint'
-    },
-    {
       width: '15%',
       title: 'Created',
       dataIndex: 'createdAt',
@@ -279,33 +312,81 @@ const History = () => {
       sorter: true,
       render: (value) => {
         return dayjs(value).format('DD-MM-YYYY hh:mm:ss')
-      }
+      },
     },
-  ];
+  ]
 
   return (
-    <Layout>
-      <Table
-        rowKey={'id'}
-        loading={loading}
-        dataSource={data}
-        columns={columns}
-        pagination={{
-          total: meta?.total,
-          pageSize: pageSize,
-          hideOnSinglePage: true,
-          showSizeChanger: false,
-          current: searchParams.get('page') ? +searchParams.get('page')! : 1,
-        }}
-        expandable={{
-          expandedRowRender: row => expandedRowRender([row]),
-          defaultExpandedRowKeys: ['0'],
-        }}
-        onChange={handleTableChange}
-        sortDirections={['descend', 'ascend']}
-      />
-    </Layout>
+    <>
+      <Layout>
+        <Table
+          rowKey={'id'}
+          loading={loading}
+          dataSource={data}
+          columns={columns}
+          pagination={{
+            total: meta?.total,
+            pageSize: pageSize,
+            hideOnSinglePage: true,
+            showSizeChanger: false,
+            current: searchParams.get('page') ? +searchParams.get('page')! : 1,
+          }}
+          expandable={{
+            expandedRowRender: row => expandedRowRender([row]),
+            defaultExpandedRowKeys: ['0'],
+          }}
+          onChange={handleTableChange}
+          sortDirections={['descend', 'ascend']}
+        />
+        {drawerInfoState && (
+          <>
+            <Drawer
+              title='User Info'
+              placement='right'
+              closable={false}
+              onClose={() => setDrawerUserState(false)}
+              open={drawerUserState}
+              className={styles.drawer}
+            >
+              <Descriptions title='Personal' column={1}>
+                <Descriptions.Item label='Name'>{drawerInfoState?.User.name}</Descriptions.Item>
+                <Descriptions.Item label='Email'>{drawerInfoState?.User.email}</Descriptions.Item>
+                <Descriptions.Item
+                  label='Created Date'>{dayjs(drawerInfoState.User.createdAt).format('DD-MM-YYYY hh:mm')}</Descriptions.Item>
+              </Descriptions>
+            </Drawer>
+            <Drawer
+              title='Basic Drawer'
+              placement='right'
+              closable={false}
+              onClose={() => setDrawerServiceState(false)}
+              open={drawerServiceState}
+            >
+              <Descriptions title='Service' column={1}>
+                <Descriptions.Item label='Id'>{drawerInfoState?.Service.id}</Descriptions.Item>
+                <Descriptions.Item label='Title'>{drawerInfoState?.Service.title}</Descriptions.Item>
+                <Descriptions.Item label='Subtitle'>{drawerInfoState.Service.subtitle}</Descriptions.Item>
+              </Descriptions>
+            </Drawer>
+          </>
+        )}
+
+      </Layout>
+    </>
   )
 }
 
 export default History
+
+
+interface DescriptionItemProps {
+  title: string;
+  content: React.ReactNode;
+}
+
+const DescriptionItem = ({ title, content }: DescriptionItemProps) => (
+  <div className={styles.item}>
+    <p className={styles.item_title}>{title}:</p>
+    {content}
+  </div>
+)

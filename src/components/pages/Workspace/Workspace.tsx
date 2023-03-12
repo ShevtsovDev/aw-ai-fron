@@ -20,7 +20,7 @@ type Form = {
   need_seo: boolean
 }
 
-type ParamType = 'ozon' | 'wb' | 'amazon' | 'telegram' | 'rewrite' | 'post'
+type ParamType = 'ozon' | 'wb' | 'amazon' | 'telegram' | 'rewrite' | 'post' | 'tiktok'
 
 const Workspace = () => {
   const { register, watch, getValues, handleSubmit, control } = useForm<Form>({ mode: 'onBlur' })
@@ -49,7 +49,7 @@ const Workspace = () => {
   const onSubmit = handleSubmit(data => {
     setLoading(true)
     if (type === 'ozon') {
-      generateService.generateOzon(data).then(response => {
+      generateService.generateOzon({ data, serviceId: schemaId}).then(response => {
         setText(response.data)
         dispatch(fetchBalance())
       })
@@ -66,7 +66,7 @@ const Workspace = () => {
     }
 
     if (type === 'wb') {
-      generateService.generateWb(data).then(response => {
+      generateService.generateWb({ data, serviceId: schemaId}).then(response => {
         setText(response.data)
         dispatch(fetchBalance())
       })
@@ -83,7 +83,7 @@ const Workspace = () => {
     }
 
     if (type === 'amazon') {
-      generateService.generateAmazon(data).then(response => {
+      generateService.generateAmazon({ data, serviceId: schemaId}).then(response => {
         setText(response.data)
         dispatch(fetchBalance())
       })
@@ -101,7 +101,7 @@ const Workspace = () => {
 
     if (type === 'telegram') {
       // @ts-ignore
-      generateService.generateTelegramPost(data).then(response => {
+      generateService.generateTelegramPost({ data, serviceId: schemaId}).then(response => {
         setText({description: response.data.post})
       })
         .catch(() => {
@@ -118,7 +118,7 @@ const Workspace = () => {
 
     if (type === 'rewrite') {
       // @ts-ignore
-      generateService.generateRewriteText(data).then(response => {
+      generateService.generateRewriteText({ data, serviceId: schemaId}).then(response => {
         setText({description: response.text})
       })
         .catch(() => {
@@ -135,8 +135,25 @@ const Workspace = () => {
 
     if (type === 'post') {
       // @ts-ignore
-      generateService.generatePostText(data).then(response => {
+      generateService.generatePostText({ data, serviceId: schemaId}).then(response => {
         setText({description: response.text})
+      })
+        .catch(() => {
+          toast('Что-то пошло не так. Может попробуете еще раз?', {
+            type: 'error'
+          })
+          setLoading(false)
+        })
+        .finally(() => {
+          dispatch(fetchStatistic())
+          setLoading(false)
+        })
+    }
+
+    if (type === 'tiktok') {
+      // @ts-ignore
+      generateService.generateTikTokTitle({ data, serviceId: schemaId}).then(response => {
+        setText({description: response.title})
       })
         .catch(() => {
           toast('Что-то пошло не так. Может попробуете еще раз?', {

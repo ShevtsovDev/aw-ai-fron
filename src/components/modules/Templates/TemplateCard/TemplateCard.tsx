@@ -8,6 +8,7 @@ import {
   FavoriteIcon,
   ReWriteIcon,
   NewsIcon,
+  TikTok,
 } from 'src/components/common/Icon'
 import { TemplateCardFC } from 'src/components/modules/Templates/Template.types'
 import { TemplateBadge } from 'src/components/modules'
@@ -25,6 +26,7 @@ const associateIcon = {
   'telegram': Telegram,
   'rewrite': ReWriteIcon,
   'post': NewsIcon,
+  'tiktok': TikTok,
 }
 
 const TemplateCard: FC<TemplateCardFC> = (props) => {
