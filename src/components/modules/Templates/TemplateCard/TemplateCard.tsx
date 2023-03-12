@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { getSchemas, setSelectedSchema } from 'src/store/slices/schemaSlice/schemaSlice'
 import { statService } from 'src/api/services/statService/statService'
 
-const associateIcon = {
+const associateIcon: any = {
   'ozon': Ozon,
   'amazon': Amazon,
   'wb': Wb,

@@ -1,5 +1,5 @@
 import styles from './Aside.module.scss'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { jsx } from '@emotion/react'
 import cn from 'classnames'
 import { IconProps } from 'src/components/common/Icon/IconProps'
@@ -24,8 +24,9 @@ const Aside = () => {
   const { pathname } = useLocation()
 
   const parent = useRef<HTMLDivElement>(null)
-  const selectedTemplate = useAppSelector(getSelectedSchema)
-  console.log(selectedTemplate)
+  const [params, _] = useSearchParams()
+  const schemaId = params.get('schema')
+
   const roles = useAppSelector(getRoles)
 
   const [transformTo, setTransformTo] = useState(0)
@@ -67,12 +68,12 @@ const Aside = () => {
           } else {
             return (
               <Link
-                onClick={(e) => b.path === '/workspace' && !selectedTemplate && e.preventDefault()}
+                onClick={(e) => b.path === '/workspace' && !schemaId && e.preventDefault()}
                 className={cn(styles.button, {
                   [styles.button_active]: pathname === b.path,
-                  [styles.button_disabled]: b.path === '/workspace' && !selectedTemplate,
-                  [styles.button_disabled_stroke]: b.type === 'stroke' && b.path === '/workspace' && !selectedTemplate,
-                  [styles.button_disabled_fill]: b.type === 'fill' && b.path === '/workspace' && !selectedTemplate,
+                  [styles.button_disabled]: b.path === '/workspace' && !schemaId,
+                  [styles.button_disabled_stroke]: b.type === 'stroke' && b.path === '/workspace' && !schemaId,
+                  [styles.button_disabled_fill]: b.type === 'fill' && b.path === '/workspace' && !schemaId,
                   [styles.button_active_stroke]: pathname === b.path && b.type === 'stroke',
                   [styles.button_active_fill]: pathname === b.path && b.type === 'fill',
                 })}

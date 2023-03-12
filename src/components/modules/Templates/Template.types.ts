@@ -3,36 +3,43 @@ export type TemplateCardStatus = {
   id: number,
 }
 
+export type SchemaType = {
+  name: string,
+    id: number,
+    fields: {
+    fields: {
+      name: string,
+        type: string,
+        group: string,
+        placeholder: string,
+        label?: string
+    }[],
+      groups: {
+      name: string,
+        title: string,
+        subtitle: string,
+        orientation: string,
+        col?: number
+    }[],
+  }
+}
+
+export type HistoryType = {
+  readonly UserId: number,
+  readonly id: number,
+  readonly requestText: string,
+  readonly responseText: string,
+  readonly tokensSpent: number
+}
 
 export type TemplateType = {
   id: number,
   title: string,
   subtitle: string,
   status: TemplateCardStatus[],
-  icon: 'ozon' | 'wb' | 'amazon' | 'telegram',
+  icon: string,
   isFavorite: boolean,
-  schema: [
-    {
-      name: string,
-      id: number,
-      fields: {
-        fields: {
-          name: string,
-          type: string,
-          group: string,
-          placeholder: string,
-          label?: string
-        }[],
-        groups: {
-          name: string,
-          title: string,
-          subtitle: string,
-          orientation: string,
-          col?: number
-        }[],
-      }
-    }
-  ]
+  schema: SchemaType[]
 }
 
 export type TemplateCardFC = {

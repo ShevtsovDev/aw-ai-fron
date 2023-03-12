@@ -32,5 +32,9 @@ export const Endpoints = {
     users: '/admin/users',
     statistic: '/admin/statistic',
     history: '/admin/history',
+  },
+  service: {
+    schema: '/services/schema/',
+    history: '/services/history/'
   }
 }

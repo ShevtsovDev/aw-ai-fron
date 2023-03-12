@@ -66,6 +66,7 @@
   transition: 0.15s;
 
   &:hover {
-    transform: scale(1.05);
+    border-color: #0acba3;
+    background-color: #0acba330;
   }
 }
