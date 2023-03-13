@@ -20,7 +20,8 @@ export type FetchSchemas = {
 export type SighUpPayload = {
   name: string,
   email: string,
-  password: string
+  password: string,
+  ref: string | null
 }
 
 

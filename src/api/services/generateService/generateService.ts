@@ -23,7 +23,7 @@ class GenerateService extends HttpClient {
 
       return response.data
     } catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 
@@ -33,7 +33,7 @@ class GenerateService extends HttpClient {
 
       return response.data
     } catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 
@@ -43,7 +43,7 @@ class GenerateService extends HttpClient {
 
       return response.data
     } catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 
@@ -53,7 +53,7 @@ class GenerateService extends HttpClient {
 
       return response.data
     }catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 
@@ -63,7 +63,7 @@ class GenerateService extends HttpClient {
 
       return response.data
     }catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 
@@ -73,17 +73,16 @@ class GenerateService extends HttpClient {
 
       return response.data
     }catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 
   generateTikTokTitle = async (body: PostBody) => {
     try {
       const response = await this.instance.post(Endpoints.generate.title.tiktok, body)
-      console.log(response.data)
       return response.data
     }catch (e: any) {
-      throw Error(e.message)
+      throw Error(e)
     }
   }
 }

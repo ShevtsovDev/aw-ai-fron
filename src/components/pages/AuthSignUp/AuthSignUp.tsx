@@ -4,7 +4,7 @@ import { authService } from 'src/api/services/authService/authService'
 import { Button, Group, Input } from 'src/components/common'
 import { useAppDispatch } from 'src/store/store'
 import { singUp } from 'src/store/slices/userSlice/userSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 
@@ -17,9 +17,11 @@ type FormType = {
 const AuthSignUp = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [params, _] = useSearchParams()
   const { control, handleSubmit } = useForm<FormType>()
   const onSignUp = handleSubmit(data => {
-    dispatch(singUp(data))
+    const ref = params.get('ref') ?? null
+    dispatch(singUp({...data, ref}))
       .unwrap()
       .then(() => {
         dispatch(fetchSchemas())

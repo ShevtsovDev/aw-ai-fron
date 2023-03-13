@@ -99,10 +99,20 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {
@@ -116,10 +126,20 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {
@@ -133,10 +153,20 @@ const Workspace = () => {
         setText(response.data)
         dispatch(fetchBalance())
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {
@@ -150,10 +180,20 @@ const Workspace = () => {
       await generateService.generateTelegramPost({ data, serviceId: schemaId}).then(response => {
         setText({description: response.data.post})
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {
@@ -167,10 +207,20 @@ const Workspace = () => {
      await generateService.generateRewriteText({ data, serviceId: schemaId}).then(response => {
         setText({description: response.text})
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {
@@ -184,10 +234,20 @@ const Workspace = () => {
       generateService.generatePostText({ data, serviceId: schemaId}).then(response => {
         setText({description: response.text})
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {
@@ -201,10 +261,20 @@ const Workspace = () => {
       await generateService.generateTikTokTitle({ data, serviceId: schemaId}).then(response => {
         setText({description: response.title})
       })
-        .catch(() => {
-          toast('Что-то пошло не так. Может попробуете еще раз?', {
-            type: 'error'
-          })
+        .catch((e) => {
+          if (e.message.includes('баланс')) {
+            toast(e.message, {
+              type: 'error'
+            })
+          } else {
+            toast('Что-то пошло не так. Может попробуете еще раз?', {
+              type: 'error'
+            })
+          }
+          clearTimeout(first)
+          clearTimeout(second)
+          clearTimeout(third)
+          clearTimeout(four)
           setLoading(false)
         })
         .finally(() => {

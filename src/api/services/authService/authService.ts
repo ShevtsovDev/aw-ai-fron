@@ -24,8 +24,12 @@ class AuthService extends HttpClient {
     }
   }
 
-  signUpWithPasswordAndEmail = async <T>(data: {email: string, password: string, name: string}): Promise<T> => {
-    const response = await this.instance.post(Endpoints.auth.signUpWithPasswordAndEmail, data)
+  signUpWithPasswordAndEmail = async <T>(data: {email: string, password: string, name: string, ref: string | null}): Promise<T> => {
+    const response = await this.instance.post(Endpoints.auth.signUpWithPasswordAndEmail, data, {
+      params: {
+        ref: data.ref ?? ''
+      }
+    })
     this.recreateInstance()
     return response.data
   }

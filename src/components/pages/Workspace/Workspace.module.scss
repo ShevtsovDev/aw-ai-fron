@@ -31,7 +31,8 @@
 
 .workspace {
   padding-left: 40px;
-
+  max-height: 90vh;
+  overflow-y: hidden;
 
   &_prev {
     overflow: auto;
