@@ -284,7 +284,7 @@ const Workspace = () => {
           <div className={styles.result}>
             {text.description && (
               <Group title="Готовое описание:">
-                <div className={styles.description} dangerouslySetInnerHTML={{ __html: text.description }} contentEditable />
+                <div className={styles.description} dangerouslySetInnerHTML={{ __html: text.description.replaceAll('\n', '<Br/>') }} contentEditable />
               </Group>
             )}
             {text.params && (
@@ -298,7 +298,7 @@ const Workspace = () => {
               </Group>
             )}
           </div>
-          {text.description || text.keywords || text.params && <Divider />}
+          {(text.description || text.keywords || text.params) && <Divider />}
           <div className={styles.workspace_prev}>
             <div className={styles.workspace_prev_title}>Ваши предыдущие генерации</div>
             <div className={styles.workspace_prev_list}>
