@@ -1,7 +1,6 @@
 .wrapper {
   display: grid;
   grid-template-columns: 1.45fr 2fr;
-  height: 100%;
 }
 
 .nativeForm {
@@ -9,8 +8,7 @@
   position: sticky;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 10px;
+  gap: 20px;
 }
 .form {
   padding-right: 40px;
@@ -31,8 +29,6 @@
 
 .workspace {
   padding-left: 40px;
-  max-height: 90vh;
-  overflow-y: hidden;
 
   &_prev {
     overflow: auto;

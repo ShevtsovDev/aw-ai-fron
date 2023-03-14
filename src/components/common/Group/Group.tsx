@@ -6,7 +6,7 @@ const Group: FC<GroupProps> = props => {
   const { orientation, col, children, subtitle, title, numColumns } = props
 
   const containerStyles: CSSProperties = {
-    gap: '20px',
+    gap: '10px',
     display: orientation === 'columns' ? 'grid' : 'flex',
     gridTemplateColumns: col ? `repeat(${col}, 1fr)` : undefined,
     flexDirection: orientation === 'row' || orientation === 'columns' ? 'row' : 'column',
