@@ -12,6 +12,8 @@ import { getRoles, getToken, sighInByToken } from 'src/store/slices/userSlice/us
 import { ToastContainer } from 'react-toastify'
 import { History, Statistic, Users } from 'src/components/pages/Admin'
 import { Roles } from 'src/types/system/roles'
+import { setGlobalLoading } from 'src/store/slices/globalSlise/globalSlise'
+import { GlobalLoader } from 'src/components/common'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -21,6 +23,9 @@ function App() {
   const { pathname } = useLocation()
 
   const navigate = useNavigate()
+  if (!pathname.includes('auth')) {
+    dispatch(setGlobalLoading({ status: true }))
+  }
   useEffect(() => {
     if (!pathname.includes('auth')) {
       dispatch(fetchSchemas())
@@ -30,6 +35,8 @@ function App() {
   useEffect(() => {
     if (lsToken) {
       dispatch(sighInByToken({ token: lsToken }))
+        .unwrap()
+        .then(() => dispatch(setGlobalLoading({ status: false })))
     }
   }, [lsToken])
 
@@ -47,17 +54,18 @@ function App() {
             {privateRoutes.map(r => {
               if (!lsToken && !pathname.includes('auth')) {
                 navigate('/auth/sign-in')
+                dispatch(setGlobalLoading({ status: false }))
                 return null
               }
               return <Route key={r.path} path={r.path} element={<r.Component />} />
             })}
-            {roles?.some(i => i === Roles.admin) && (
+            {roles?.some(i => i === Roles.admin) &&
               adminRoutes.map(r => {
                 return <Route key={r.path} path={r.path} element={<r.Component />} />
-              })
-            )}
+              })}
           </Routes>
         </div>
+        <GlobalLoader />
       </div>
       <ToastContainer />
     </div>

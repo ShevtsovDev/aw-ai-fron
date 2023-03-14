@@ -1,27 +1,26 @@
 .aside {
-  background: var(--clr-gray-6);
-  border-radius: 10px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-left: 15px;
-  bottom: 10px;
-  padding-top: 20px;
-  width: 190px;
-  min-width: 190px;
-  overflow: hidden;
-  height: calc(100vh - 30px);
+  position: relative;
+  z-index: 15;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 1px 1px 15px -1px var(--clr-gray-1);
+  width: 250px;
+  min-width: 250px;
+  background: var(--color-bg-secondary);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 25px;
 }
 
 .logo {
-  font-family: Roboto, sans-serif !important;
-  font-size: 24px;
+  align-self: flex-start;
   font-weight: 700;
-  color: var(--color-grey-white);
-  text-align: center;
+  font-size: 18px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #FFFFFF;
 }
 
 .buttons {
@@ -34,36 +33,20 @@
   gap: 50px;
 }
 
-.marker {
-  position: absolute;
-  width: 100%;
-  height: 64px;
-  padding: 10px;
-  background: var(--clr-black-3);
-  top: 0;
-  left: 0;
-  transition: 0.15s;
-  opacity: 0;
-  animation: showMarker 0.1s 0.1s forwards linear;
-}
 
 .button {
-  padding-inline: 20px;
-  position: relative;
-  z-index: 4;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
-  font-size: 16px;
-  color: var(--color-grey-white);
-  line-height: 20px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: 0.15s;
-  border-radius: 10px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  color: #A7A9B6;
+  text-decoration: none !important;
+  &_text {
+    margin-top: 3px;
+  }
+
 
   svg {
     min-width: 24px;
@@ -73,15 +56,15 @@
 
   &_active {
     position: relative;
-    color: var(--clr-active);
+    color: var(--clr-primary);
     &_stroke {
       svg path {
-        stroke: var(--clr-active);
+        stroke: var(--clr-primary);
       }
     }
     &_fill {
       svg path {
-        fill: var(--clr-active);
+        fill: var(--clr-primary);
       }
     }
   }

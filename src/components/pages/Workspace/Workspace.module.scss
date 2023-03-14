@@ -11,8 +11,36 @@
   gap: 20px;
 }
 .form {
-  padding-right: 40px;
-  border-right: 1px solid var(--clr-black-1);
+  padding: 15px;
+
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.prompt {
+  &_title {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.question {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  svg {
+    width: 26px;
+    height: 26px;
+  }
+  svg path {
+    fill: var(--clr-secondary);
+  }
 }
 
 .loader {

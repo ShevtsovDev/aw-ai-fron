@@ -12,10 +12,11 @@ import { generateService } from 'src/api/services/generateService/generateServic
 import { fetchBalance, fetchStatistic } from 'src/store/slices/userSlice/userSlice'
 import { HashLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
-import { Divider } from 'antd'
+import { Divider, Tooltip } from 'antd'
 import { schemaService } from 'src/api/services/schemaService/schemaService'
 import { HistoryType, SchemaType, TemplateType } from 'src/components/modules/Templates/Template.types'
 import cn from 'classnames'
+import { Question } from 'src/components/common/Icon'
 
 type Form = {
   product_name: string
@@ -327,15 +328,6 @@ const Workspace = () => {
     }
   }
 
-  const compareClipboard = async (text: string): Promise<boolean> => {
-    try {
-      const clipboardText = await navigator.clipboard.readText();
-      return clipboardText === text;
-    } catch (err) {
-      return false;
-    }
-  }
-
 
 
   return (
@@ -345,7 +337,16 @@ const Workspace = () => {
           {schema && (
             <form className={styles.nativeForm} onSubmit={onSubmit}>
               <Dataset />
-              <Button>Отправить</Button>
+              <Divider />
+              <div className={styles.actions}>
+                <Button>Отправить</Button>
+                <Tooltip title={<Prompt />} color={'var(--clr-primary)'} overlayInnerStyle={{padding: '20px 10px'}} >
+                  <div className={styles.question}>
+                    Прочтите перед генерацией
+                    <Question />
+                  </div>
+                </Tooltip>
+              </div>
               {loading && <div className={styles.loader}><HashLoader size={100} color="#36d7b7" /></div>}
             </form>
           )}
@@ -393,3 +394,17 @@ const Workspace = () => {
 }
 
 export default Workspace
+
+const Prompt = () => {
+  return (
+    <div className={styles.prompt}>
+      <p className={styles.prompt_title}>Важное замечание:</p>
+      <p>
+        Проведя аналитику, мы пришли к выводу, что текста, генерируемые My Copy, в большинстве случаев лучше, чем в других сервисах.
+      </p>
+      <p>
+        Мы уже сейчас используем обученные языковые модели, а параллельно продолжаем обучать новые
+      </p>
+    </div>
+  )
+}

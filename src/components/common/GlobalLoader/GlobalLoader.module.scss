@@ -1,0 +1,18 @@
+.loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(20px);
+  background: #00000050;
+  z-index: 999999;
+  &_show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
