@@ -5,7 +5,7 @@ import { RoutesType } from './types/system/routes'
 import { Aside } from './components/modules'
 import { Paths } from 'src/utils/paths/paths'
 import { Header } from 'src/components/modules'
-import { AuthSignIn, AuthSignUp, Dashboard, Home, Templates, Workspace } from 'src/components/pages'
+import { AuthSignIn, AuthSignUp, Dashboard, EditorPage, Home, Templates, Workspace } from 'src/components/pages'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 import { getRoles, getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
@@ -14,6 +14,7 @@ import { History, Statistic, Users } from 'src/components/pages/Admin'
 import { Roles } from 'src/types/system/roles'
 import { setGlobalLoading } from 'src/store/slices/globalSlise/globalSlise'
 import { GlobalLoader } from 'src/components/common'
+import { fetchDocs } from 'src/store/slices/docsSlice/docsSlice'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -29,6 +30,7 @@ function App() {
   useEffect(() => {
     if (!pathname.includes('auth')) {
       dispatch(fetchSchemas())
+      dispatch(fetchDocs())
     }
   }, [])
 
@@ -86,9 +88,19 @@ const publicRoutes: RoutesType[] = [
     Component: AuthSignIn,
   },
   {
-    path: Paths.AuthSignUp,
+    path: Paths.AuthSignIn,
     protected: false,
-    Component: AuthSignUp,
+    Component: AuthSignIn,
+  },
+  {
+    path: `${Paths.Editor}/:uuid`,
+    protected: false,
+    Component: EditorPage,
+  },
+  {
+    path: `${Paths.Editor}`,
+    protected: false,
+    Component: EditorPage,
   },
 ]
 

@@ -4,6 +4,7 @@ import schemaSlice from 'src/store/slices/schemaSlice/schemaSlice'
 import userSlice from 'src/store/slices/userSlice/userSlice'
 import adminSlice from 'src/store/slices/adminSlise/adminSlise'
 import globalSlise from 'src/store/slices/globalSlise/globalSlise'
+import docsSlice from 'src/store/slices/docsSlice/docsSlice'
 
 
 export const store = configureStore({
@@ -11,7 +12,8 @@ export const store = configureStore({
     schemas: schemaSlice,
     user: userSlice,
     admin: adminSlice,
-    global: globalSlise
+    global: globalSlise,
+    docs: docsSlice
   },
 })
 

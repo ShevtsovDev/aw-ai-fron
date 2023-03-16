@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import { StyleProvider } from '@ant-design/cssinjs';
 import { ConfigProvider, theme, ThemeConfig } from 'antd'
-import { Theme } from 'antd/es/config-provider/context'
+import 'devextreme/dist/css/dx.dark.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

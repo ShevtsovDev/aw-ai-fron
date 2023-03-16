@@ -70,7 +70,6 @@ class GenerateService extends HttpClient {
   generatePostText = async (body: PostBody) => {
     try {
       const response = await this.instance.post(Endpoints.post.text, body)
-
       return response.data
     }catch (e: any) {
       throw Error(e)

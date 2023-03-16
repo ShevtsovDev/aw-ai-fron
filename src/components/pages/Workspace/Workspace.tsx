@@ -3,7 +3,7 @@ import { Layout } from 'src/components/modules'
 import styles from './Workspace.module.scss'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getSelectedSchema, setSelectedSchema } from 'src/store/slices/schemaSlice/schemaSlice'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import Checkbox from 'src/components/common/Form/Checkbox/Checkbox'
@@ -12,11 +12,16 @@ import { generateService } from 'src/api/services/generateService/generateServic
 import { fetchBalance, fetchStatistic } from 'src/store/slices/userSlice/userSlice'
 import { HashLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
-import { Divider, Tooltip } from 'antd'
+import { Divider, Modal, Tooltip } from 'antd'
 import { schemaService } from 'src/api/services/schemaService/schemaService'
 import { HistoryType, SchemaType, TemplateType } from 'src/components/modules/Templates/Template.types'
 import cn from 'classnames'
-import { Question } from 'src/components/common/Icon'
+import { Copy, Dislike, Edit, Like, Question } from 'src/components/common/Icon'
+import { evaluationService } from 'src/api/services/evaluationService/evaluationService'
+import { copyToClipboard } from 'src/utils/helpers/copyToClipboard'
+import { getAllDocs } from 'src/store/slices/docsSlice/docsSlice'
+import { docsService } from 'src/api/services/docsService/docsService'
+import { Paths } from 'src/utils/paths/paths'
 
 type Form = {
   product_name: string
@@ -233,7 +238,9 @@ const Workspace = () => {
     if (type === 'post') {
       // @ts-ignore
       generateService.generatePostText({ data, serviceId: schemaId}).then(response => {
-        setText({description: response.text})
+        setTimeout(() => {
+          setText({description: response.text})
+        }, 400)
       })
         .catch((e) => {
           if (e.message.includes('баланс')) {
@@ -254,6 +261,12 @@ const Workspace = () => {
         .finally(() => {
           dispatch(fetchStatistic())
           setLoading(false)
+          if (schemaId) {
+            schemaService.fetchHistory<{ history: HistoryType[]}>(schemaId)
+              .then(data => {
+                setHistory(data.history)
+              })
+          }
         })
     }
 
@@ -288,6 +301,12 @@ const Workspace = () => {
     clearTimeout(second)
     clearTimeout(third)
     clearTimeout(four)
+    if (schemaId) {
+      schemaService.fetchHistory<{ history: HistoryType[]}>(schemaId)
+        .then(data => {
+          setHistory(data.history)
+        })
+    }
   })
 
   const Dataset = () => {
@@ -316,19 +335,6 @@ const Workspace = () => {
     }
   }
 
-  const copyToClipboard = async (text: string): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedText(text)
-      toast('Текст скопирован в буфер обмена', {
-        type: 'success'
-      })
-    } catch (err) {
-
-    }
-  }
-
-
 
   return (
     <Layout>
@@ -352,34 +358,9 @@ const Workspace = () => {
           )}
         </div>
         <div className={styles.workspace}>
-          <div className={styles.result}>
-            {text.description && (
-              <Group title="Готовое описание:">
-                <div className={styles.description} dangerouslySetInnerHTML={{ __html: text.description.replaceAll('\n', '<Br/>') }} contentEditable />
-              </Group>
-            )}
-            {text.params && (
-              <Group title="Характеристики:">
-                <div className={styles.description} dangerouslySetInnerHTML={{ __html: text.params }} contentEditable />
-              </Group>
-            )}
-            {text.keywords && (
-              <Group title="Ключевые слова:">
-                <div className={styles.description} dangerouslySetInnerHTML={{ __html: text.keywords }} contentEditable />
-              </Group>
-            )}
-          </div>
-          {(text.description || text.keywords || text.params) && <Divider />}
           <div className={styles.workspace_prev}>
-            <div className={styles.workspace_prev_title}>Ваши предыдущие генерации</div>
             <div className={styles.workspace_prev_list}>
-              {history?.map( i => {
-
-                return (
-                  <div onClick={() => copyToClipboard(i.responseText)} className={cn(styles.workspace_prev_list_item, { [styles.workspace_prev_list_item_copied]: i.responseText === copiedText})} dangerouslySetInnerHTML={{__html: i.responseText.replaceAll('\n', '<Br/>')}}>
-                  </div>
-                )
-              })}
+              {history?.map( i => <HistoryItem id={i.id} responseText={i.responseText} dislikeStatus={i.dislike} likeStatus={i.like} />)}
             </div>
             {history?.length === 0 && (
               <div className={styles.workspace_prev_empty}>
@@ -405,6 +386,100 @@ const Prompt = () => {
       <p>
         Мы уже сейчас используем обученные языковые модели, а параллельно продолжаем обучать новые
       </p>
+    </div>
+  )
+}
+
+
+type HistoryItemTypes = {
+  id: number,
+  responseText: string,
+  dislikeStatus: boolean,
+  likeStatus: boolean,
+}
+
+const HistoryItem = (props: HistoryItemTypes) => {
+  const { responseText, id, likeStatus, dislikeStatus } = props
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [like, setLike] = useState(likeStatus)
+  const [dislike, setDislike] = useState(dislikeStatus)
+  const navigate = useNavigate()
+  const docs = useAppSelector(getAllDocs)
+
+  const onLike = () => {
+    setDislike(false)
+    setLike(prev => !prev)
+    evaluationService.like(id)
+  }
+
+  const onDislike = () => {
+    setLike(false)
+    setDislike(prev => !prev)
+    evaluationService.dislike(id)
+  }
+
+  const onCopy = () => {
+    copyToClipboard(responseText)
+  }
+
+  const handleOk = () => {
+    console.log('qwe')
+  }
+
+  const handleOpen = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleAddToDoc = (uuid: string) => {
+    docsService.addToExistenceDoc(responseText, uuid)
+      .then(() => {
+        navigate(`${Paths.Editor}/${uuid}`)
+      })
+  }
+
+  const handleAddToNewDoc = () => {
+    docsService.createDoc(responseText)
+      .then(data => {
+        navigate(`${Paths.Editor}/${data.uuid}`)
+      })
+  }
+
+
+  return (
+    <div>
+      <div /*onClick={() => copyToClipboard(i.responseText)}*/ className={cn(styles.workspace_prev_list_item)}>
+        <div className={styles.workspace_prev_list_item_text} dangerouslySetInnerHTML={{__html: responseText.replaceAll('\n', '<Br/>')}}/>
+        <div className={styles.action}>
+          <div className={cn(styles.action_btn, styles.action_btn_like, {[styles.action_btn_like_active]: like})} onClick={onLike}>
+            <Like />
+          </div>
+          <div className={cn(styles.action_btn, styles.action_btn_dislike, {[styles.action_btn_dislike_active]: dislike})} onClick={onDislike}>
+            <Dislike />
+          </div>
+          <div className={cn(styles.action_btn, styles.action_btn_default)} onClick={onCopy} >
+            <Copy />
+          </div>
+          <Tooltip title='Изменить'>
+            <div className={cn(styles.action_btn, styles.action_btn_default)} onClick={handleOpen} >
+              <Edit />
+            </div>
+          </Tooltip>
+        </div>
+      </div>
+      <Modal footer={false} maskStyle={{backgroundColor: 'rgba(0, 0, 0, 0.9)'}} width={'40%'} title="В хотите создать новый документ или добавить текст в существующтй?" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className={styles.docs_list}>
+          <div className={styles.docs_list_item} onClick={handleAddToNewDoc}>Создать новый</div>
+          {docs.map(d => {
+            return (
+              <div key={d.uuid} onClick={() => handleAddToDoc(d.uuid)} className={styles.docs_list_item}>{d.name ?? d.uuid}</div>
+            )
+          })}
+        </div>
+      </Modal>
     </div>
   )
 }

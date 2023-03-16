@@ -116,6 +116,12 @@ const buttons: ButtonType[] = [
     text: 'Рабочая зона',
   },
   {
+    Icon: AdminHistoryIcon,
+    path: Paths.Editor,
+    type: 'fill',
+    text: 'Редактор',
+  },
+  {
     Icon: AdminUsersIcon,
     path: Paths.Admin_Users,
     type: 'fill',

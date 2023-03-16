@@ -3,6 +3,7 @@ export enum Paths {
   Dashboard = '/dashboard',
   Templates = '/templates',
   Workspace = '/workspace',
+  Editor = '/editor',
   Payment = '/payment',
   AuthSignIn = '/auth/sign-in',
   AuthSignUp = '/auth/sign-up',

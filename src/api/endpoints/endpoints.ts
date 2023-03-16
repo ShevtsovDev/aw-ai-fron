@@ -1,3 +1,5 @@
+import { evaluationService } from 'src/api/services/evaluationService/evaluationService'
+
 export const Endpoints = {
   generate: {
     product: {
@@ -12,11 +14,19 @@ export const Endpoints = {
       tiktok: '/generate/tiktok/title'
     }
   },
+  evaluation: '/evaluation/',
   post: {
     text: '/rewrite/news'
   },
   rewrite: {
     text: '/rewrite/text'
+  },
+  docs : {
+    getAll: '/docs',
+    getOne: '/docs',
+    create: '/docs',
+    save: '/docs',
+    add: '/docs/add'
   },
   auth: {
     singInWithPasswordAndEmail: '/auth/sign-in',

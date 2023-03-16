@@ -29,7 +29,9 @@ export type HistoryType = {
   readonly id: number,
   readonly requestText: string,
   readonly responseText: string,
-  readonly tokensSpent: number
+  readonly tokensSpent: number,
+  readonly like: boolean,
+  readonly dislike: boolean,
 }
 
 export type TemplateType = {

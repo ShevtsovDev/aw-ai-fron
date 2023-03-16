@@ -68,13 +68,16 @@
       color: var(--clr-gray-5);
     }
     &_list {
-      margin-top: 20px;
-      padding: 20px;
+      padding: 5px;
       display: flex;
       flex-direction: column;
       gap: 20px;
 
       &_item {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        position: relative;
         cursor: pointer;
         background: var(--color-grey-6);
         border: 1px solid var(--color-grey-5);
@@ -92,6 +95,9 @@
         &_copied {
           border-color: var(--clr-bage-stable-text) !important;
         }
+
+        &_text {
+        }
       }
     }
 
@@ -108,6 +114,73 @@
 
     &_empty {
       text-align: center;
+    }
+  }
+}
+
+.action {
+  right: 20px;
+  top: 20px;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--clr-bage-beta-text);
+    transition: 0.15s;
+    &_like {
+
+      svg path {
+        fill: var(--clr-success);
+      }
+      &:hover {
+        border-color: var(--clr-success);
+      }
+
+      &_active {
+        border-color: var(--clr-success);
+        background: var(--clr-success);
+
+        svg path {
+          fill: var(--color-white);
+        }
+      }
+    }
+
+    &_dislike {
+      svg path {
+        fill: var(--clr-error);
+      }
+      &:hover {
+        border-color: var(--clr-error);
+      }
+
+      &_active {
+        border-color: var(--clr-error);
+        background: var(--clr-error);
+        svg path {
+          fill: var(--color-white);
+        }
+      }
+    }
+
+    &_default {
+      svg path {
+        fill: var(--color-grey-white);
+      }
+
+      &:hover {
+        svg path {
+          fill: var(--clr-bage-beta-text);
+        }
+      }
     }
   }
 }
@@ -132,5 +205,25 @@
 
   ul {
     padding-top: 15px;
+  }
+}
+
+.docs_list {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  &_item {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--color-grey-white);
+    transition: 0.15s;
+    font-size: 16px;
+
+    &:hover {
+      border-color: var(--clr-bage-beta-text);
+    }
   }
 }

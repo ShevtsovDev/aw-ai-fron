@@ -1,0 +1,89 @@
+.wrapper {
+  height: 100%;
+  padding-top: 20px;
+  padding-right: 20px;
+  display: flex;
+  gap: 20px;
+  .layout {
+    margin-top: 76px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 20px;
+    color: var(--color-white);
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      width: 4px; /* ширина полосы прокрутки */
+      height: 4px; /* высота полосы прокрутки */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: var(--clr-primary); /* цвет фона полосы прокрутки */
+    }
+  }
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 200px;
+  height: 100%;
+  padding: 76px 10px 20px;
+  background: var(--color-grey-6);
+
+  &_item {
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid var(--color-grey-3);
+    color: var(--color-grey-3);
+    text-decoration: none;
+    span {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      border-color: var(--color-white);
+      color: var(--color-white);
+    }
+
+    &_active {
+      border-color: var(--clr-primary) !important;
+      color: var(--clr-primary) !important;
+    }
+
+    &_new {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+
+      svg path {
+        fill: var(--color-grey-3);
+      }
+
+      &:hover {
+        border-color: var(--clr-primary);
+        background-color: var(--clr-primary);
+        color: var(--color-white);
+
+        svg path {
+          fill: var(--color-white);
+        }
+      }
+    }
+  }
+}
+
+.docName {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

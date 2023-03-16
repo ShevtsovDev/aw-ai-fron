@@ -3,8 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap');
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+html, body, div, span, applet, object, iframe, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, img, ins, kbd, q, s, samp,
 small, sub, sup, tt, var, center,
@@ -64,7 +63,6 @@ html {
   overflow: auto;
   margin-top: 20px;
   padding: 20px;
-  background: var(--clr-editor-bg);
   border-radius: 20px;
 
   outline: none;
