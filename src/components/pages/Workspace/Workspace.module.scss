@@ -227,3 +227,14 @@
     }
   }
 }
+
+.payment {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+
+  &_actions {
+    display: flex;
+    justify-content: space-between;
+  }
+}

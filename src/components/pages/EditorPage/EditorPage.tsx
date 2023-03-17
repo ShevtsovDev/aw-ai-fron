@@ -1,7 +1,7 @@
 import { Editor } from 'src/components/modules'
 import styles from './EditorPage.module.scss'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDebounce } from 'src/hooks'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import {
@@ -13,9 +13,7 @@ import {
   saveDoc,
 } from 'src/store/slices/docsSlice/docsSlice'
 import cn from 'classnames'
-import { HtmlEditor } from 'devextreme-react'
-import { Plus, Saved } from 'src/components/common/Icon'
-
+import { Plus } from 'src/components/common/Icon'
 
 const EditorPage = () => {
   let { uuid } = useParams()
@@ -29,8 +27,6 @@ const EditorPage = () => {
   useEffect(() => {
     dispatch(fetchDocs())
   }, [])
-
-
 
   const createNewDoc = () => {
     dispatch(createDoc({ content: '' }))
@@ -51,13 +47,18 @@ const EditorPage = () => {
         {docs.map(d => {
           if (loading) {
             return (
-              <div className={cn(styles.aside_item, {[styles.aside_item_active]: d.uuid === uuid})}>
+              <div
+                className={cn(styles.aside_item, { [styles.aside_item_active]: d.uuid === uuid })}
+              >
                 <span>{d.name ?? d.uuid}</span>
               </div>
             )
           } else {
             return (
-              <Link to={`/editor/${d.uuid}`} className={cn(styles.aside_item, {[styles.aside_item_active]: d.uuid === uuid})}>
+              <Link
+                to={`/editor/${d.uuid}`}
+                className={cn(styles.aside_item, { [styles.aside_item_active]: d.uuid === uuid })}
+              >
                 <span>{d.name ?? d.uuid}</span>
               </Link>
             )
@@ -75,10 +76,7 @@ const EditorBlock = () => {
   let { uuid } = useParams()
 
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const docs = useAppSelector(getAllDocs)
   const loading = useAppSelector(getDocsLoading)
-  const editorRef = useRef<HtmlEditor>(null)
   const [value, setValue] = useState('')
   const debouncedValue = useDebounce(value, 1000)
 
@@ -92,14 +90,14 @@ const EditorBlock = () => {
 
   useEffect(() => {
     if (uuid) {
-      dispatch(fetchDocByUUID({uuid}))
+      dispatch(fetchDocByUUID({ uuid }))
         .unwrap()
         .then(data => {
           setValue(data.content)
         })
     }
   }, [uuid])
-  console.log(loading)
+
   return (
     <div className={styles.layout}>
       <div className={styles.docName}>Документ: {uuid}</div>

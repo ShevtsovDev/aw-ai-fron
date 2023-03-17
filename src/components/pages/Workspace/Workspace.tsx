@@ -4,7 +4,6 @@ import styles from './Workspace.module.scss'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getSelectedSchema, setSelectedSchema } from 'src/store/slices/schemaSlice/schemaSlice'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import Checkbox from 'src/components/common/Form/Checkbox/Checkbox'
 import Textarea from 'src/components/common/Form/Textarea/Textarea'
@@ -14,7 +13,7 @@ import { HashLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import { Divider, Modal, Tooltip } from 'antd'
 import { schemaService } from 'src/api/services/schemaService/schemaService'
-import { HistoryType, SchemaType, TemplateType } from 'src/components/modules/Templates/Template.types'
+import { HistoryType, SchemaType } from 'src/components/modules/Templates/Template.types'
 import cn from 'classnames'
 import { Copy, Dislike, Edit, Like, Question } from 'src/components/common/Icon'
 import { evaluationService } from 'src/api/services/evaluationService/evaluationService'
@@ -22,7 +21,7 @@ import { copyToClipboard } from 'src/utils/helpers/copyToClipboard'
 import { getAllDocs } from 'src/store/slices/docsSlice/docsSlice'
 import { docsService } from 'src/api/services/docsService/docsService'
 import { Paths } from 'src/utils/paths/paths'
-
+import { Button as AntButton } from 'antd'
 type Form = {
   product_name: string
   short_description: string
@@ -39,7 +38,8 @@ const Workspace = () => {
   const [params, _] = useSearchParams()
   const [schema, setSchema] = useState<SchemaType | null>(null)
   const [history, setHistory] = useState<HistoryType[]>()
-  const [copiedText, setCopiedText] = useState<string>()
+  const [paymentModal, setPaymentModal] = useState(false)
+  const navigate = useNavigate()
 
   const schemaId = params.get('schema')
   const type = params.get('type') as ParamType
@@ -110,6 +110,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -137,6 +138,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -164,6 +166,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -191,6 +194,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -218,6 +222,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -247,6 +252,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -280,6 +286,7 @@ const Workspace = () => {
             toast(e.message, {
               type: 'error'
             })
+            setPaymentModal(true)
           } else {
             toast('Что-то пошло не так. Может попробуете еще раз?', {
               type: 'error'
@@ -336,6 +343,9 @@ const Workspace = () => {
   }
 
 
+  const goToPayment = () => {
+    navigate('/payment')
+  }
   return (
     <Layout>
       <div className={styles.wrapper}>
@@ -370,6 +380,17 @@ const Workspace = () => {
           </div>
         </div>
       </div>
+      <Modal footer={false} open={paymentModal} onCancel={() => setPaymentModal(false)} closable={false}>
+        <div className={styles.payment}>
+          <span>У вас закончились символы на балансе 😥</span>
+          <span>Хотите пополнть?</span>
+          <Divider style={{margin: '16px 0'}} />
+          <div className={styles.payment_actions}>
+            <AntButton onClick={goToPayment} type='primary'>Да, хочу 😍</AntButton>
+            <AntButton onClick={() => setPaymentModal(false)}>Отмена</AntButton>
+          </div>
+        </div>
+      </Modal>
     </Layout>
   )
 }

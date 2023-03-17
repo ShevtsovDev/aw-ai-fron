@@ -1,0 +1,22 @@
+.payment {
+  width: max-content;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-grey-white);
+
+  ul {
+    margin-top: 20px;
+
+    li {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+
+      a {
+        text-decoration: underline;
+        color: var(--clr-secondary);
+      }
+    }
+  }
+}

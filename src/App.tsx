@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react'
 import styles from './App.module.scss'
-import { Navigate, Route, RouteProps, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { RoutesType } from './types/system/routes'
 import { Aside } from './components/modules'
 import { Paths } from 'src/utils/paths/paths'
 import { Header } from 'src/components/modules'
-import { AuthSignIn, AuthSignUp, Dashboard, EditorPage, Home, Templates, Workspace } from 'src/components/pages'
+import {
+  AuthSignIn,
+  AuthSignUp,
+  Dashboard,
+  EditorPage,
+  Home, Payment,
+  Templates,
+  Workspace,
+} from 'src/components/pages'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 import { getRoles, getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
@@ -102,6 +110,11 @@ const publicRoutes: RoutesType[] = [
     protected: false,
     Component: EditorPage,
   },
+  {
+    path: Paths.Payment,
+    protected: false,
+    Component: Payment
+  }
 ]
 
 const privateRoutes: RoutesType[] = [
