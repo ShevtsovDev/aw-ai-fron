@@ -28,7 +28,6 @@
     "is-hotkey": "^0.2.0",
     "nanoid": "^4.0.1",
     "prettier": "^2.8.4",
-    "rc-json-editor": "^2.0.34",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-contenteditable": "^3.3.7",
