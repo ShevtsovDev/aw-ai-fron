@@ -71,7 +71,6 @@ export const createDoc = createAsyncThunk<string, { content: string }>(
   `${SLICE_NAME}/createDoc`,
   async (arg, thunkAPI) => {
     const response = await docsService.createDoc(arg.content)
-    console.log(response)
     return response.uuid
   },
 )

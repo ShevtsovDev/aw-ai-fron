@@ -18,11 +18,12 @@ import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 import { getRoles, getToken, sighInByToken } from 'src/store/slices/userSlice/userSlice'
 import { ToastContainer } from 'react-toastify'
-import { History, Statistic, Users } from 'src/components/pages/Admin'
+import { FormBuilder, History, Statistic, Users } from 'src/components/pages/Admin'
 import { Roles } from 'src/types/system/roles'
 import { setGlobalLoading } from 'src/store/slices/globalSlise/globalSlise'
 import { GlobalLoader } from 'src/components/common'
 import { fetchDocs } from 'src/store/slices/docsSlice/docsSlice'
+import ServicesControl from 'src/components/pages/Admin/ServicesControl/ServicesControl'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -165,5 +166,15 @@ const adminRoutes: RoutesType[] = [
     path: Paths.Admin_History,
     Component: History,
     protected: true,
+  },
+  {
+    path: Paths.Admin_Services_Control,
+    protected: false,
+    Component: ServicesControl,
+  },
+  {
+    path: Paths.Admin_Form_Builder,
+    protected: false,
+    Component: FormBuilder,
   },
 ]

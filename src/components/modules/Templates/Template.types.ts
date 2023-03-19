@@ -12,7 +12,8 @@ export type SchemaType = {
         type: string,
         group: string,
         placeholder: string,
-        label?: string
+        label?: string,
+        maxLength?: number
     }[],
       groups: {
       name: string,

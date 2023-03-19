@@ -1,20 +1,28 @@
 import styles from './Dashboard.module.scss'
 import { Layout } from 'src/components/modules'
-import money from 'src/assets/images/infoBlock/money.png'
 import InfoSmallBlock from 'src/components/modules/InfoBlocks/InfoSmallBlock/InfoSmallBlock'
-import { TokenIcon } from 'src/components/common/Icon'
 import { Link } from 'react-router-dom'
 import { Paths } from 'src/utils/paths/paths'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import {
+  fetchReferrals,
+  fetchReferralsStatistic,
   fetchStatistic,
-  getBalance,
+  getReferrals,
+  getReferralsStatistic,
   getStatistic,
   getUser,
+  retrieved,
+  retrievedAll,
 } from 'src/store/slices/userSlice/userSlice'
 import LineChart from 'src/components/modules/Charts/LineChart/LineChart'
 import { useEffect } from 'react'
 import { convertNumber } from 'src/utils/helpers/convertNumber'
+import { copyToClipboard } from 'src/utils/helpers/copyToClipboard'
+import { Button, Table } from 'antd'
+import { ColumnsType } from 'antd/es/table'
+import dayjs from 'dayjs'
+import { ReferralStatistic } from 'src/store/slices/userSlice/userSlice.types'
 
 const requests = 1950
 const rang = 10
@@ -22,11 +30,60 @@ const rang = 10
 const Dashboard = () => {
   const user = useAppSelector(getUser)
   const statistic = useAppSelector(getStatistic)
+  const referrals = useAppSelector(getReferrals)
+  const referralsStatistic = useAppSelector(getReferralsStatistic)
 
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fetchStatistic())
+    dispatch(fetchReferrals())
+    dispatch(fetchReferralsStatistic())
   }, [])
+
+  const getRetrieved = (id: number) => {
+    dispatch(retrieved({ id }))
+  }
+
+  const getRetrievedAll = () => {
+    dispatch(retrievedAll())
+  }
+
+  const columns: ColumnsType<ReferralStatistic> = [
+    {
+      title: 'Реферал',
+      dataIndex: 'referralHistoryFrom',
+      key: 'referralHistoryFrom',
+      render: row => {
+        return row.email
+      },
+    },
+    {
+      title: 'Количество символов',
+      dataIndex: 'amount',
+      key: 'amount',
+    },
+    {
+      title: 'Дата начисления на реферальный баланс',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: row => dayjs(row).format('DD-MM-YYYY hh:mm'),
+    },
+    {
+      title: 'Статус',
+      dataIndex: 'retrieved',
+      key: 'retrieved',
+      render: row => (row ? 'Получено' : 'Не получено'),
+    },
+    {
+      title: 'Действия',
+      render: row => {
+        if (row.retrieved) {
+          return <Button disabled>Получено</Button>
+        }
+        return <Button onClick={() => getRetrieved(row.id)}>Получить</Button>
+      },
+    },
+  ]
 
   return (
     <Layout>
@@ -52,8 +109,54 @@ const Dashboard = () => {
                   {convertNumber(statistic.reduce((acc, cur) => acc + +cur.requestCount, 0))}
                 </span>
                 <span className={styles.small_info_subtitle}>
-                  {statistic.reduce((acc, cur) => acc + +cur.requestCount, 0) > 30 ? 'Это больше, чем у 59% пользователей' : <Link to={'/templates'}>Выбрать шаблон для генерации</Link>}
+                  {statistic.reduce((acc, cur) => acc + +cur.requestCount, 0) > 30 ? (
+                    'Это больше, чем у 59% пользователей'
+                  ) : (
+                    <Link to={'/templates'}>Выбрать шаблон для генерации</Link>
+                  )}
+                </span>
+              </div>
+            </InfoSmallBlock>
 
+            <InfoSmallBlock>
+              <div className={styles.block}>
+                <span className={styles.small_info_title}>Общее количество реферралов</span>
+                <span className={styles.small_info_value}>{referrals.length}</span>
+                <span className={styles.small_info_subtitle}>
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault()
+                      copyToClipboard(
+                        `https://my-copy.io/auth/sign-up?ref=${user.user!.referral_code}`,
+                        'Реферальная ссылка скопирована',
+                      )
+                    }}
+                  >
+                    Пригласить друзей
+                  </a>
+                </span>
+              </div>
+            </InfoSmallBlock>
+
+            <InfoSmallBlock>
+              <div className={styles.block}>
+                <span className={styles.small_info_title}>Реферальный баланс</span>
+                <span className={styles.small_info_value}>
+                  {referralsStatistic
+                    .filter(rs => !rs.retrieved)
+                    .reduce((acc, cur) => acc + cur.amount, 0)}
+                </span>
+                <span className={styles.small_info_subtitle}>
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault()
+                      getRetrievedAll()
+                    }}
+                  >
+                    Получить все
+                  </a>
                 </span>
               </div>
             </InfoSmallBlock>
@@ -74,8 +177,34 @@ const Dashboard = () => {
       <div className={styles.statistic}>
         <LineChart statistic={statistic} />
       </div>
+
+      <div className={styles.referral}>
+        <div className={styles.referral_title}>Реферальная программа</div>
+        <div
+          className={styles.referral_code}
+          onClick={() =>
+            copyToClipboard(
+              `https://my-copy.io/auth/sign-up?ref=${user.user!.referral_code}`,
+              'Реферальная ссылка скопирована',
+            )
+          }
+        >
+          Нажмите для получения реферальной ссылки
+        </div>
+
+        <div className={styles.referral_table}>
+          <Table
+            locale={{ emptyText: 'Тут пока пусто' }}
+            pagination={false}
+            dataSource={referralsStatistic}
+            columns={columns}
+          />
+        </div>
+      </div>
     </Layout>
   )
 }
 
 export default Dashboard
+
+

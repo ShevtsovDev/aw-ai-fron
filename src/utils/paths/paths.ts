@@ -10,4 +10,6 @@ export enum Paths {
   Admin_Users = '/admin/users',
   Admin_Statistic = '/admin/statistic',
   Admin_History = '/admin/history',
+  Admin_Services_Control = '/admin/services-control',
+  Admin_Form_Builder = '/admin/services-control/form-builder/:id',
 }

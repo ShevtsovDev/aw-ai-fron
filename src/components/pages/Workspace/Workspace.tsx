@@ -32,8 +32,8 @@ type Form = {
 type ParamType = 'ozon' | 'wb' | 'amazon' | 'telegram' | 'rewrite' | 'post' | 'tiktok'
 
 const Workspace = () => {
-  const { register, watch, getValues, handleSubmit, control } = useForm<Form>({ mode: 'onBlur' })
-
+  const { register, watch, getValues, handleSubmit, control, formState: { errors, isValid } } = useForm<Form>({ mode: 'onBlur' })
+  console.log(errors)
   const dispatch = useAppDispatch()
   const [params, _] = useSearchParams()
   const [schema, setSchema] = useState<SchemaType | null>(null)
@@ -57,7 +57,7 @@ const Workspace = () => {
         })
     }
   }, [])
-
+  console.log(isValid)
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState<{ description: string; keywords?: string; params?: string }>({
     keywords: '',
@@ -323,14 +323,14 @@ const Workspace = () => {
           <Group title={g.title} subtitle={g.subtitle} col={g.col} orientation={g.orientation as any}>
             {schema.fields.fields.filter((f) => f.group === g.name).map(f => {
               if (f.type === 'text') {
-                return <Input control={control} name={f.name} placeholder={f.placeholder} />
+                return <Input control={control} name={f.name} placeholder={f.placeholder} rules={{maxLength: f.maxLength}} />
               }
               if (f.type === 'checkbox') {
                 return <Checkbox name={f.name} control={control} label={f.label} />
               }
 
               if (f.type === 'textarea') {
-                return <Textarea control={control} name={f.name} placeholder={f.placeholder} />
+                return <Textarea control={control} name={f.name} placeholder={f.placeholder} rules={{maxLength: f.maxLength}} />
               }
             })}
           </Group>
@@ -355,7 +355,7 @@ const Workspace = () => {
               <Dataset />
               <Divider />
               <div className={styles.actions}>
-                <Button>Отправить</Button>
+                <Button disabled={!isValid}>Отправить</Button>
                 <Tooltip title={<Prompt />} color={'var(--clr-primary)'} overlayInnerStyle={{padding: '20px 10px'}} >
                   <div className={styles.question}>
                     Прочтите перед генерацией
@@ -444,7 +444,7 @@ const HistoryItem = (props: HistoryItemTypes) => {
   }
 
   const handleOk = () => {
-    console.log('qwe')
+
   }
 
   const handleOpen = () => {

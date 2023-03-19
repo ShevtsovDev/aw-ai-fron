@@ -1,15 +1,19 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .title {
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-size: 18px;
   color: var(--clr-gray-5);
 }
 
 .subtitle {
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-size: 15px;
   color: var(--clr-gray-4);
   font-weight: 400;

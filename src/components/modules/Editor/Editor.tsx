@@ -44,7 +44,7 @@ const Editor = forwardRef<HtmlEditor, EditorType>((props) => {
   useEffect(() => {
     if (editorRef.current) {
       editorRef.current.instance.on('selection', () => {
-        console.log('qwe')
+
       })
       }
   }, [])

@@ -16,11 +16,13 @@ import { Paths } from 'src/utils/paths/paths'
 import React, { useEffect, useRef, useState } from 'react'
 import JSX = jsx.JSX
 import { useAppSelector } from 'src/store/store'
-import { getRoles } from 'src/store/slices/userSlice/userSlice'
+import { getRoles, getUser } from 'src/store/slices/userSlice/userSlice'
 import { Roles } from 'src/types/system/roles'
 import { getSelectedSchema } from 'src/store/slices/schemaSlice/schemaSlice'
 import logo from 'src/assets/images/logo.svg'
-import { Divider } from 'antd'
+import { Button, Divider } from 'antd'
+import giftbox from 'src/assets/images/giftbox.png'
+import { copyToClipboard } from 'src/utils/helpers/copyToClipboard'
 
 const Aside = () => {
   const { pathname } = useLocation()
@@ -32,6 +34,8 @@ const Aside = () => {
 
   const publicButton = buttons.filter(b => !b.protected)
   const privateButton = buttons.filter(b => b.protected)
+
+  const user = useAppSelector(getUser)
 
   return (
     <div className={styles.aside}>
@@ -82,6 +86,21 @@ const Aside = () => {
             )
           }
         })}
+
+        <div className={styles.banner}>
+          <div className={styles.banner_image}>
+            <img src={giftbox} alt='' />
+          </div>
+          <div className={styles.banner_title}>
+            Бонусные символы
+          </div>
+          <div className={styles.banner_text}>
+            Приглашай друзей и получай за них бесплатные символы
+          </div>
+          <div className={styles.banner_actions}>
+            <Button onClick={() => copyToClipboard(`https://my-copy.io/auth/sign-up?ref=${user.user!.referral_code}`, 'Реферальная ссылка скопирована')}>Пригласить</Button>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -141,6 +160,13 @@ const buttons: ButtonType[] = [
     type: 'fill',
     protected: true,
     text: 'История',
+  },
+  {
+    Icon: AdminHistoryIcon,
+    path: Paths.Admin_Services_Control,
+    type: 'fill',
+    protected: true,
+    text: 'Управление услугами',
   },
 ]
 

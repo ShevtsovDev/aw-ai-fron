@@ -17,3 +17,21 @@
   color: inherit;
   font-size: inherit;
 }
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.maxLength {
+  margin-top: 10px;
+  align-self: flex-end;
+  padding: 5px;
+  border-radius: 8px;
+  opacity: 0.8;
+  border: 1px solid var(--color-grey-white);
+  background: #c9c9c920;
+
+  &_limit {
+    border-color: var(--clr-error);
+    background: var(--clr-error);
+  }
+}

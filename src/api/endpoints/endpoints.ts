@@ -28,6 +28,11 @@ export const Endpoints = {
     save: '/docs',
     add: '/docs/add'
   },
+  referrals: {
+    getAll: '/referrals',
+    getStatistic: '/referrals/stat',
+    retrieved: '/referrals/retrieved'
+  },
   auth: {
     singInWithPasswordAndEmail: '/auth/sign-in',
     signInWithToken: '/auth/token',
