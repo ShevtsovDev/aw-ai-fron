@@ -8,7 +8,7 @@ const Input: FC<InputProps> = props => {
   const { control, name, rules } = props
   const { field, fieldState } = useController({ control, name, rules })
 
-
+  console.log('ok')
   return (
     <div className={styles.wrapper}>
       <div className={styles.input}>
