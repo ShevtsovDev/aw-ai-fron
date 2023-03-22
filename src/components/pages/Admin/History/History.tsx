@@ -98,12 +98,6 @@ const History = () => {
   const [meta, setMeta] = useState<Meta>()
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  })
 
   const fetchData = () => {
     setLoading(true)
@@ -151,7 +145,6 @@ const History = () => {
   const [drawerServiceState, setDrawerServiceState] = useState(false)
   const [drawerInfoState, setDrawerInfoState] = useState<HistoryType | null>(null)
 
-  const toggleDrawer = () => setDrawerUserState(prev => !prev)
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,

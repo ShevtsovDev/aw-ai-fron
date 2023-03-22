@@ -4,13 +4,14 @@ import { Endpoints } from 'src/api/endpoints/endpoints'
 
 class AdminService extends HttpClient {
 
-  fetchUsers = async <T>(page: string, pageSize: number, order: string | null) => {
+  fetchUsers = async <T>(page: string, pageSize: number, order: string | null, filter?: string | null) => {
     try {
       const response = await this.instance.get<T>(Endpoints.admin.users, {
         params: {
           page,
           pageSize,
-          order
+          order,
+          filter
         }
       })
 

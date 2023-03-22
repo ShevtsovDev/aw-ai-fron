@@ -7,7 +7,7 @@ import cn from 'classnames'
 const Input: FC<InputProps> = props => {
   const { control, name, rules } = props
   const { field, fieldState } = useController({ control, name, rules })
-  console.log(rules?.maxLength)
+
 
   return (
     <div className={styles.wrapper}>
