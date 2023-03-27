@@ -47,7 +47,7 @@ const TemplateCard: FC<TemplateCardFC> = (props) => {
     <div onClick={goTo} className={cn(styles.card, { [styles.card_favorite]: isFavorite })}>
       <div className={styles.head}>
         <div className={styles.head_icon}>
-          <Icon />
+          {icon.includes('http') ? <img src={icon} alt='' /> : <Icon />}
         </div>
         <div className={styles.head_badges}>
           {status.map(s => <TemplateBadge badge={s} />)}
