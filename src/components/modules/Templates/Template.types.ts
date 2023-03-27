@@ -13,7 +13,8 @@ export type SchemaType = {
         group: string,
         placeholder: string,
         label?: string,
-        maxLength?: number
+        maxLength?: number,
+        options?: {title: string, value: number}[]
     }[],
       groups: {
       name: string,
@@ -42,7 +43,9 @@ export type TemplateType = {
   status: TemplateCardStatus[],
   icon: string,
   isFavorite: boolean,
-  schema: SchemaType[]
+  schema: SchemaType[],
+  route: string,
+  select?: {value: number, title: string}[]
 }
 
 export type TemplateCardFC = {

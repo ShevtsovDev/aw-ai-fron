@@ -37,7 +37,7 @@ const TemplateCard: FC<TemplateCardFC> = (props) => {
 
   const goTo = () => {
     statService.setStat(id)
-    navigate(`/workspace?schema=${id}&type=${icon}`)
+    navigate(`/workspace?schema=${id}&service=${id}`)
   }
   const Icon = associateIcon[icon]
 

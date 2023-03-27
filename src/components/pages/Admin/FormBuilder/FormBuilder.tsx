@@ -54,7 +54,7 @@ const FormBuilder = () => {
 
   const groupFormRef = useRef<FormInstance>(null)
   const fieldFormRef = useRef<FormInstance>(null)
-  console.log(schemaId)
+
   useEffect(() => {
    if (schemaId) {
      schemaService.fetchSchemaById<{ schema: SchemaType}>(schemaId)
@@ -66,7 +66,6 @@ const FormBuilder = () => {
    }
   }, [])
 
-  console.log(schema)
 
   const openGroupModal = () => {
     setGroupModal(true)

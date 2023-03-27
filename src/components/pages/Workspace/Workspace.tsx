@@ -8,10 +8,10 @@ import { useAppDispatch, useAppSelector } from 'src/store/store'
 import Checkbox from 'src/components/common/Form/Checkbox/Checkbox'
 import Textarea from 'src/components/common/Form/Textarea/Textarea'
 import { generateService } from 'src/api/services/generateService/generateService'
-import { fetchBalance, fetchStatistic } from 'src/store/slices/userSlice/userSlice'
+import { fetchStatistic } from 'src/store/slices/userSlice/userSlice'
 import { HashLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
-import { Divider, Modal, Tooltip } from 'antd'
+import { Button as AntButton, Divider, Modal, Tooltip } from 'antd'
 import { schemaService } from 'src/api/services/schemaService/schemaService'
 import { HistoryType, SchemaType } from 'src/components/modules/Templates/Template.types'
 import cn from 'classnames'
@@ -21,7 +21,11 @@ import { copyToClipboard } from 'src/utils/helpers/copyToClipboard'
 import { getAllDocs } from 'src/store/slices/docsSlice/docsSlice'
 import { docsService } from 'src/api/services/docsService/docsService'
 import { Paths } from 'src/utils/paths/paths'
-import { Button as AntButton } from 'antd'
+import { getSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
+import InputNumber from 'src/components/common/Form/InputNumber/InputNumber'
+import Select from 'react-select'
+import InputSelect from 'src/components/common/Form/InputSelect/InputSelect'
+
 type Form = {
   product_name: string
   short_description: string
@@ -29,11 +33,26 @@ type Form = {
   need_seo: boolean
 }
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
+
 type ParamType = 'ozon' | 'wb' | 'amazon' | 'telegram' | 'rewrite' | 'post' | 'tiktok'
 
 const Workspace = () => {
-  const { register, watch, getValues, handleSubmit, control, formState: { errors, isValid } } = useForm<Form>({ mode: 'onBlur' })
-  console.log(errors)
+  const {
+    register,
+    watch,
+    getValues,
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = useForm<Form>({ mode: 'onBlur' })
+
+  const services = useAppSelector(getSchemas)
+
   const dispatch = useAppDispatch()
   const [params, _] = useSearchParams()
   const [schema, setSchema] = useState<SchemaType | null>(null)
@@ -43,21 +62,21 @@ const Workspace = () => {
 
   const schemaId = params.get('schema')
   const type = params.get('type') as ParamType
+  const serviceId = params.get('service') as ParamType
 
+  const currentService = services.find(s => s.id === +serviceId)
 
   useEffect(() => {
     if (schemaId) {
-      schemaService.fetchSchemaById<{ schema: SchemaType}>(schemaId)
-        .then(data => {
-          setSchema(data.schema)
-        })
-      schemaService.fetchHistory<{ history: HistoryType[]}>(schemaId)
-        .then(data => {
-          setHistory(data.history)
-        })
+      schemaService.fetchSchemaById<{ schema: SchemaType }>(schemaId).then(data => {
+        setSchema(data.schema)
+      })
+      schemaService.fetchHistory<{ history: HistoryType[] }>(schemaId).then(data => {
+        setHistory(data.history)
+      })
     }
   }, [])
-  console.log(isValid)
+
   const [loading, setLoading] = useState(false)
   const [text, setText] = useState<{ description: string; keywords?: string; params?: string }>({
     keywords: '',
@@ -81,7 +100,9 @@ const Workspace = () => {
     }
 
     const fourStep = () => {
-      toast('Мы почти уверены, что текст в работе, но если вам кажется, что что-то не так - попробуйте обновить страницу')
+      toast(
+        'Мы почти уверены, что текст в работе, но если вам кажется, что что-то не так - попробуйте обновить страницу',
+      )
     }
 
     const first = setTimeout(() => {
@@ -100,196 +121,20 @@ const Workspace = () => {
       fourStep()
     }, 90000)
 
-    if (type === 'ozon') {
-      await generateService.generateOzon({ data, serviceId: schemaId}).then(response => {
-        setText(response.data)
-        dispatch(fetchBalance())
-      })
-        .catch((e) => {
+    if (currentService) {
+      await generateService
+        .generate({ ...data, serviceId: schemaId }, currentService.route)
+        .then(response => {})
+        .catch(e => {
           if (e.message.includes('баланс')) {
             toast(e.message, {
-              type: 'error'
+              type: 'error',
             })
             setPaymentModal(true)
           } else {
+            console.log(e)
             toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
-            })
-          }
-          clearTimeout(first)
-          clearTimeout(second)
-          clearTimeout(third)
-          clearTimeout(four)
-          setLoading(false)
-        })
-        .finally(() => {
-          dispatch(fetchStatistic())
-          setLoading(false)
-        })
-    }
-
-    if (type === 'wb') {
-      await generateService.generateWb({ data, serviceId: schemaId}).then(response => {
-        setText(response.data)
-        dispatch(fetchBalance())
-      })
-        .catch((e) => {
-          if (e.message.includes('баланс')) {
-            toast(e.message, {
-              type: 'error'
-            })
-            setPaymentModal(true)
-          } else {
-            toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
-            })
-          }
-          clearTimeout(first)
-          clearTimeout(second)
-          clearTimeout(third)
-          clearTimeout(four)
-          setLoading(false)
-        })
-        .finally(() => {
-          dispatch(fetchStatistic())
-          setLoading(false)
-        })
-    }
-
-    if (type === 'amazon') {
-     await generateService.generateAmazon({ data, serviceId: schemaId}).then(response => {
-        setText(response.data)
-        dispatch(fetchBalance())
-      })
-        .catch((e) => {
-          if (e.message.includes('баланс')) {
-            toast(e.message, {
-              type: 'error'
-            })
-            setPaymentModal(true)
-          } else {
-            toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
-            })
-          }
-          clearTimeout(first)
-          clearTimeout(second)
-          clearTimeout(third)
-          clearTimeout(four)
-          setLoading(false)
-        })
-        .finally(() => {
-          dispatch(fetchStatistic())
-          setLoading(false)
-        })
-    }
-
-    if (type === 'telegram') {
-      // @ts-ignore
-      await generateService.generateTelegramPost({ data, serviceId: schemaId}).then(response => {
-        setText({description: response.data.post})
-      })
-        .catch((e) => {
-          if (e.message.includes('баланс')) {
-            toast(e.message, {
-              type: 'error'
-            })
-            setPaymentModal(true)
-          } else {
-            toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
-            })
-          }
-          clearTimeout(first)
-          clearTimeout(second)
-          clearTimeout(third)
-          clearTimeout(four)
-          setLoading(false)
-        })
-        .finally(() => {
-          dispatch(fetchStatistic())
-          setLoading(false)
-        })
-    }
-
-    if (type === 'rewrite') {
-      // @ts-ignore
-     await generateService.generateRewriteText({ data, serviceId: schemaId}).then(response => {
-        setText({description: response.text})
-      })
-        .catch((e) => {
-          if (e.message.includes('баланс')) {
-            toast(e.message, {
-              type: 'error'
-            })
-            setPaymentModal(true)
-          } else {
-            toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
-            })
-          }
-          clearTimeout(first)
-          clearTimeout(second)
-          clearTimeout(third)
-          clearTimeout(four)
-          setLoading(false)
-        })
-        .finally(() => {
-          dispatch(fetchStatistic())
-          setLoading(false)
-        })
-    }
-
-    if (type === 'post') {
-      // @ts-ignore
-      generateService.generatePostText({ data, serviceId: schemaId}).then(response => {
-        setTimeout(() => {
-          setText({description: response.text})
-        }, 400)
-      })
-        .catch((e) => {
-          if (e.message.includes('баланс')) {
-            toast(e.message, {
-              type: 'error'
-            })
-            setPaymentModal(true)
-          } else {
-            toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
-            })
-          }
-          clearTimeout(first)
-          clearTimeout(second)
-          clearTimeout(third)
-          clearTimeout(four)
-          setLoading(false)
-        })
-        .finally(() => {
-          dispatch(fetchStatistic())
-          setLoading(false)
-          if (schemaId) {
-            schemaService.fetchHistory<{ history: HistoryType[]}>(schemaId)
-              .then(data => {
-                setHistory(data.history)
-              })
-          }
-        })
-    }
-
-    if (type === 'tiktok') {
-      // @ts-ignore
-      await generateService.generateTikTokTitle({ data, serviceId: schemaId}).then(response => {
-        setText({description: response.title})
-      })
-        .catch((e) => {
-          if (e.message.includes('баланс')) {
-            toast(e.message, {
-              type: 'error'
-            })
-            setPaymentModal(true)
-          } else {
-            toast('Что-то пошло не так. Может попробуете еще раз?', {
-              type: 'error'
+              type: 'error',
             })
           }
           clearTimeout(first)
@@ -309,30 +154,67 @@ const Workspace = () => {
     clearTimeout(third)
     clearTimeout(four)
     if (schemaId) {
-      schemaService.fetchHistory<{ history: HistoryType[]}>(schemaId)
-        .then(data => {
-          setHistory(data.history)
-        })
+      schemaService.fetchHistory<{ history: HistoryType[] }>(schemaId).then(data => {
+        setHistory(data.history)
+      })
     }
   })
 
+
+  console.log(getValues())
   const Dataset = () => {
     if (schema) {
-      const result = schema.fields.groups.map((g) => {
+      const result = schema.fields.groups.map(g => {
         return (
-          <Group title={g.title} subtitle={g.subtitle} col={g.col} orientation={g.orientation as any}>
-            {schema.fields.fields.filter((f) => f.group === g.name).map(f => {
-              if (f.type === 'text') {
-                return <Input control={control} name={f.name} placeholder={f.placeholder} rules={{maxLength: f.maxLength}} />
-              }
-              if (f.type === 'checkbox') {
-                return <Checkbox name={f.name} control={control} label={f.label} />
-              }
+          <Group
+            title={g.title}
+            subtitle={g.subtitle}
+            col={g.col}
+            orientation={g.orientation as any}
+          >
+            {schema.fields.fields
+              .filter(f => f.group === g.name)
+              .map(f => {
+                if (f.type === 'text') {
+                  return (
+                    <Input
+                      control={control}
+                      name={f.name}
+                      placeholder={f.placeholder}
+                      rules={{ maxLength: f.maxLength }}
+                    />
+                  )
+                }
+                if (f.type === 'checkbox') {
+                  return <Checkbox name={f.name} control={control} label={f.label} />
+                }
 
-              if (f.type === 'textarea') {
-                return <Textarea control={control} name={f.name} placeholder={f.placeholder} rules={{maxLength: f.maxLength}} />
-              }
-            })}
+                if (f.type === 'textarea') {
+                  return (
+                    <Textarea
+                      control={control}
+                      name={f.name}
+                      placeholder={f.placeholder}
+                      rules={{ maxLength: f.maxLength }}
+                    />
+                  )
+                }
+                if (f.type === 'number') {
+                  return (
+                    <InputNumber
+                      control={control}
+                      name={f.name}
+                      placeholder={f.placeholder}
+                      rules={{ pattern: /^[0-9]*$/ }}
+                    />
+                  )
+                }
+                if (f.type === 'select') {
+                  return (
+                    <InputSelect options={f.options?.map(option => ({label: option.title, value: option.value})) ?? []} control={control} name={f.name} />
+                  )
+                }
+              })}
           </Group>
         )
       })
@@ -341,7 +223,6 @@ const Workspace = () => {
       return <>qwe</>
     }
   }
-
 
   const goToPayment = () => {
     navigate('/payment')
@@ -356,21 +237,36 @@ const Workspace = () => {
               <Divider />
               <div className={styles.actions}>
                 <Button disabled={!isValid}>Отправить</Button>
-                <Tooltip title={<Prompt />} color={'var(--clr-primary)'} overlayInnerStyle={{padding: '20px 10px'}} >
+                <Tooltip
+                  title={<Prompt />}
+                  color={'var(--clr-primary)'}
+                  overlayInnerStyle={{ padding: '20px 10px' }}
+                >
                   <div className={styles.question}>
                     Прочтите перед генерацией
                     <Question />
                   </div>
                 </Tooltip>
               </div>
-              {loading && <div className={styles.loader}><HashLoader size={100} color="#36d7b7" /></div>}
+              {loading && (
+                <div className={styles.loader}>
+                  <HashLoader size={100} color="#36d7b7" />
+                </div>
+              )}
             </form>
           )}
         </div>
         <div className={styles.workspace}>
           <div className={styles.workspace_prev}>
             <div className={styles.workspace_prev_list}>
-              {history?.map( i => <HistoryItem id={i.id} responseText={i.responseText} dislikeStatus={i.dislike} likeStatus={i.like} />)}
+              {history?.map(i => (
+                <HistoryItem
+                  id={i.id}
+                  responseText={i.responseText}
+                  dislikeStatus={i.dislike}
+                  likeStatus={i.like}
+                />
+              ))}
             </div>
             {history?.length === 0 && (
               <div className={styles.workspace_prev_empty}>
@@ -380,13 +276,20 @@ const Workspace = () => {
           </div>
         </div>
       </div>
-      <Modal footer={false} open={paymentModal} onCancel={() => setPaymentModal(false)} closable={false}>
+      <Modal
+        footer={false}
+        open={paymentModal}
+        onCancel={() => setPaymentModal(false)}
+        closable={false}
+      >
         <div className={styles.payment}>
           <span>У вас закончились символы на балансе 😥</span>
           <span>Хотите пополнть?</span>
-          <Divider style={{margin: '16px 0'}} />
+          <Divider style={{ margin: '16px 0' }} />
           <div className={styles.payment_actions}>
-            <AntButton onClick={goToPayment} type='primary'>Да, хочу 😍</AntButton>
+            <AntButton onClick={goToPayment} type="primary">
+              Да, хочу 😍
+            </AntButton>
             <AntButton onClick={() => setPaymentModal(false)}>Отмена</AntButton>
           </div>
         </div>
@@ -402,7 +305,8 @@ const Prompt = () => {
     <div className={styles.prompt}>
       <p className={styles.prompt_title}>Важное замечание:</p>
       <p>
-        Проведя аналитику, мы пришли к выводу, что текста, генерируемые My Copy, в большинстве случаев лучше, чем в других сервисах.
+        Проведя аналитику, мы пришли к выводу, что текста, генерируемые My Copy, в большинстве
+        случаев лучше, чем в других сервисах.
       </p>
       <p>
         Мы уже сейчас используем обученные языковые модели, а параллельно продолжаем обучать новые
@@ -411,12 +315,11 @@ const Prompt = () => {
   )
 }
 
-
 type HistoryItemTypes = {
-  id: number,
-  responseText: string,
-  dislikeStatus: boolean,
-  likeStatus: boolean,
+  id: number
+  responseText: string
+  dislikeStatus: boolean
+  likeStatus: boolean
 }
 
 const HistoryItem = (props: HistoryItemTypes) => {
@@ -443,9 +346,7 @@ const HistoryItem = (props: HistoryItemTypes) => {
     copyToClipboard(responseText)
   }
 
-  const handleOk = () => {
-
-  }
+  const handleOk = () => {}
 
   const handleOpen = () => {
     setIsModalOpen(true)
@@ -456,47 +357,77 @@ const HistoryItem = (props: HistoryItemTypes) => {
   }
 
   const handleAddToDoc = (uuid: string) => {
-    docsService.addToExistenceDoc(responseText, uuid)
-      .then(() => {
-        navigate(`${Paths.Editor}/${uuid}`)
-      })
+    docsService.addToExistenceDoc(responseText, uuid).then(() => {
+      navigate(`${Paths.Editor}/${uuid}`)
+    })
   }
 
   const handleAddToNewDoc = () => {
-    docsService.createDoc(responseText)
-      .then(data => {
-        navigate(`${Paths.Editor}/${data.uuid}`)
-      })
+    docsService.createDoc(responseText).then(data => {
+      navigate(`${Paths.Editor}/${data.uuid}`)
+    })
   }
-
 
   return (
     <div>
-      <div /*onClick={() => copyToClipboard(i.responseText)}*/ className={cn(styles.workspace_prev_list_item)}>
-        <div className={styles.workspace_prev_list_item_text} dangerouslySetInnerHTML={{__html: responseText.replaceAll('\n', '<Br/>')}}/>
+      <div
+        /*onClick={() => copyToClipboard(i.responseText)}*/ className={cn(
+          styles.workspace_prev_list_item,
+        )}
+      >
+        <div
+          className={styles.workspace_prev_list_item_text}
+          dangerouslySetInnerHTML={{ __html: responseText.replaceAll('\n', '<Br/>') }}
+        />
         <div className={styles.action}>
-          <div className={cn(styles.action_btn, styles.action_btn_like, {[styles.action_btn_like_active]: like})} onClick={onLike}>
+          <div
+            className={cn(styles.action_btn, styles.action_btn_like, {
+              [styles.action_btn_like_active]: like,
+            })}
+            onClick={onLike}
+          >
             <Like />
           </div>
-          <div className={cn(styles.action_btn, styles.action_btn_dislike, {[styles.action_btn_dislike_active]: dislike})} onClick={onDislike}>
+          <div
+            className={cn(styles.action_btn, styles.action_btn_dislike, {
+              [styles.action_btn_dislike_active]: dislike,
+            })}
+            onClick={onDislike}
+          >
             <Dislike />
           </div>
-          <div className={cn(styles.action_btn, styles.action_btn_default)} onClick={onCopy} >
+          <div className={cn(styles.action_btn, styles.action_btn_default)} onClick={onCopy}>
             <Copy />
           </div>
-          <Tooltip title='Изменить'>
-            <div className={cn(styles.action_btn, styles.action_btn_default)} onClick={handleOpen} >
+          <Tooltip title="Изменить">
+            <div className={cn(styles.action_btn, styles.action_btn_default)} onClick={handleOpen}>
               <Edit />
             </div>
           </Tooltip>
         </div>
       </div>
-      <Modal footer={false} maskStyle={{backgroundColor: 'rgba(0, 0, 0, 0.9)'}} width={'40%'} title="В хотите создать новый документ или добавить текст в существующтй?" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        footer={false}
+        maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
+        width={'40%'}
+        title="В хотите создать новый документ или добавить текст в существующтй?"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <div className={styles.docs_list}>
-          <div className={styles.docs_list_item} onClick={handleAddToNewDoc}>Создать новый</div>
+          <div className={styles.docs_list_item} onClick={handleAddToNewDoc}>
+            Создать новый
+          </div>
           {docs.map(d => {
             return (
-              <div key={d.uuid} onClick={() => handleAddToDoc(d.uuid)} className={styles.docs_list_item}>{d.name ?? d.uuid}</div>
+              <div
+                key={d.uuid}
+                onClick={() => handleAddToDoc(d.uuid)}
+                className={styles.docs_list_item}
+              >
+                {d.name ?? d.uuid}
+              </div>
             )
           })}
         </div>

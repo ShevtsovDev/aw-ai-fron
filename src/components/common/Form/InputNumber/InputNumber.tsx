@@ -1,18 +1,22 @@
-import styles from './Textarea.module.scss'
-import { FC } from 'react'
+import styles from './InputNumber.module.scss'
+import { ChangeEventHandler, FC } from 'react'
 import { useController } from 'react-hook-form'
-import { TextareaProps } from 'src/components/common/Form/Textarea/Textarea.types'
-import TextareaAutosize from 'react-textarea-autosize';
+import { InputProps } from './InputNumber.types'
 import cn from 'classnames'
 
-
-const Textarea: FC<TextareaProps> = props => {
-  const { control, name, rules } = props
+const InputNumber: FC<InputProps> = props => {
+  const { control, name, rules, type } = props
+  const {} = props
   const { field, fieldState } = useController({ control, name, rules })
+
+  const handleChange = (e:  React.ChangeEvent<HTMLInputElement>) => {
+    field.onChange(+e.target.value.replace(/[^0-9]/g, ''))
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.input}>
-        <TextareaAutosize {...field} minRows={4} maxRows={10} className={styles.nativeInput} />
+        <input {...field} onChange={(e) => handleChange(e)} className={styles.nativeInput} {...props} type='text' />
       </div>
       {rules?.maxLength && rules.maxLength > 0 && (
         <div className={cn(styles.maxLength, {
@@ -24,4 +28,4 @@ const Textarea: FC<TextareaProps> = props => {
     </div>
   )
 }
-export default Textarea
+export default InputNumber

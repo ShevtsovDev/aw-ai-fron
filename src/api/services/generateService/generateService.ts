@@ -17,6 +17,16 @@ class GenerateService extends HttpClient {
     super()
   }
 
+
+  generate = async (body: any, route: string) => {
+    try {
+      const response = await this.instance.post(route, body)
+
+      return response.data
+    } catch (e: any) {
+      throw Error(e)
+    }
+  }
   generateWb = async (body: Body) => {
     try {
       const response = await this.instance.post(Endpoints.generate.product.wb, body)
