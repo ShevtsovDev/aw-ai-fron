@@ -129,6 +129,12 @@ const buttons: ButtonType[] = [
     text: 'Шаблоны',
   },
   {
+    Icon: TemplateIcon,
+    path: Paths.ChatList,
+    type: 'stroke',
+    text: 'Чаты',
+  },
+  {
     Icon: WorkspaceIcon,
     path: Paths.Workspace,
     type: 'stroke',

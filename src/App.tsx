@@ -13,6 +13,8 @@ import {
   Home, Payment,
   Templates,
   Workspace,
+  Chat,
+  ChatTemplate, ChatList,
 } from 'src/components/pages'
 import { useAppDispatch, useAppSelector } from 'src/store/store'
 import { fetchSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
@@ -25,6 +27,8 @@ import { GlobalLoader } from 'src/components/common'
 import { fetchDocs } from 'src/store/slices/docsSlice/docsSlice'
 import ServicesControl from 'src/components/pages/Admin/ServicesControl/ServicesControl'
 
+
+
 function App() {
   const dispatch = useAppDispatch()
   const lsToken = localStorage.getItem('aw-ai-token')
@@ -34,7 +38,7 @@ function App() {
 
   const navigate = useNavigate()
   if (!pathname.includes('auth')) {
-    dispatch(setGlobalLoading({ status: true }))
+    //dispatch(setGlobalLoading({ status: true }))
   }
   useEffect(() => {
     if (!pathname.includes('auth')) {
@@ -47,7 +51,9 @@ function App() {
     if (lsToken) {
       dispatch(sighInByToken({ token: lsToken }))
         .unwrap()
-        .then(() => dispatch(setGlobalLoading({ status: false })))
+        .then(() => {
+          //dispatch(setGlobalLoading({ status: false }))
+        })
     }
   }, [lsToken])
 
@@ -133,6 +139,16 @@ const privateRoutes: RoutesType[] = [
     path: Paths.Templates,
     protected: true,
     Component: Templates,
+  },
+  {
+    path: Paths.ChatList,
+    protected: true,
+    Component: ChatList,
+  },
+  {
+    path: Paths.Chat,
+    protected: true,
+    Component: Chat,
   },
   {
     path: Paths.Workspace,

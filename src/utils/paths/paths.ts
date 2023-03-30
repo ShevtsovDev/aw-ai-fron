@@ -5,6 +5,8 @@ export enum Paths {
   Workspace = '/workspace',
   Editor = '/editor',
   Payment = '/payment',
+  Chat = '/chat/:uuid',
+  ChatList = '/chat/list',
   AuthSignIn = '/auth/sign-in',
   AuthSignUp = '/auth/sign-up',
   Admin_Users = '/admin/users',
