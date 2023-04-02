@@ -41,6 +41,8 @@ export type HistoryType = {
   readonly requestText: string,
   readonly responseText: string,
   readonly tokensSpent: string,
+  readonly dislike: boolean,
+  readonly like: boolean,
 }
 
 export type StatisticType = {

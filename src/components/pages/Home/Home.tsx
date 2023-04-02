@@ -7,17 +7,11 @@ import step4 from 'src/assets/images/guide/step4.png'
 import load from 'src/assets/images/guide/load.png'
 import step6 from 'src/assets/images/guide/steep6.png'
 import { useNavigate } from 'react-router-dom'
-import { Divider } from 'antd'
 
 import img1 from 'src/assets/images/1.png'
 import img2 from 'src/assets/images/2.png'
-import img3 from 'src/assets/images/3.png'
 import img4 from 'src/assets/images/4.png'
-import img5 from 'src/assets/images/5.png'
 import img6 from 'src/assets/images/6.png'
-const balance = 2000
-const requests = 1950
-const rang = 10
 
 const Home = () => {
   const navigate = useNavigate()

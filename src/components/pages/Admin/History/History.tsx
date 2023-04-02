@@ -291,11 +291,24 @@ const History = () => {
       render: value => <div className={styles.text} dangerouslySetInnerHTML={{ __html: value }} />,
     },
     {
-      width: '20%',
+      width: '15%',
       title: 'Spent Tokens',
       dataIndex: 'tokensSpent',
       key: 'tokensSpent',
       sorter: true,
+    },
+    {
+      width: '5%',
+      title: 'Status',
+      render: (row) => {
+        if (row.like) {
+          return '👍'
+        }
+        if (row.dislike) {
+          return '👎'
+        }
+        return ''
+      }
     },
     {
       width: '15%',

@@ -51,5 +51,10 @@ export const Endpoints = {
   service: {
     schema: '/services/schema/',
     history: '/services/history/'
+  },
+  chat: {
+    getAll: '/chat/all',
+    create: '/chat/create',
+    getTemplates: '/chat/template/getAll'
   }
 }

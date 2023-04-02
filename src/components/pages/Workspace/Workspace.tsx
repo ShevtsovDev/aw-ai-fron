@@ -23,7 +23,6 @@ import { docsService } from 'src/api/services/docsService/docsService'
 import { Paths } from 'src/utils/paths/paths'
 import { getSchemas } from 'src/store/slices/schemaSlice/schemaSlice'
 import InputNumber from 'src/components/common/Form/InputNumber/InputNumber'
-import Select from 'react-select'
 import InputSelect from 'src/components/common/Form/InputSelect/InputSelect'
 
 type Form = {
@@ -33,18 +32,10 @@ type Form = {
   need_seo: boolean
 }
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
 type ParamType = 'ozon' | 'wb' | 'amazon' | 'telegram' | 'rewrite' | 'post' | 'tiktok'
 
 const Workspace = () => {
   const {
-    register,
-    watch,
     getValues,
     handleSubmit,
     control,
@@ -61,7 +52,6 @@ const Workspace = () => {
   const navigate = useNavigate()
 
   const schemaId = params.get('schema')
-  const type = params.get('type') as ParamType
   const serviceId = params.get('service') as ParamType
 
   const currentService = services.find(s => s.id === +serviceId)
@@ -78,11 +68,6 @@ const Workspace = () => {
   }, [])
 
   const [loading, setLoading] = useState(false)
-  const [text, setText] = useState<{ description: string; keywords?: string; params?: string }>({
-    keywords: '',
-    params: '',
-    description: '',
-  })
 
   const onSubmit = handleSubmit(async data => {
     setLoading(true)

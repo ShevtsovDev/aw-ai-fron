@@ -5,6 +5,7 @@ import userSlice from 'src/store/slices/userSlice/userSlice'
 import adminSlice from 'src/store/slices/adminSlise/adminSlise'
 import globalSlise from 'src/store/slices/globalSlise/globalSlise'
 import docsSlice from 'src/store/slices/docsSlice/docsSlice'
+import chatSlice from 'src/store/slices/chatSlise/chatSlise'
 
 
 export const store = configureStore({
@@ -13,7 +14,8 @@ export const store = configureStore({
     user: userSlice,
     admin: adminSlice,
     global: globalSlise,
-    docs: docsSlice
+    docs: docsSlice,
+    chat: chatSlice
   },
 })
 

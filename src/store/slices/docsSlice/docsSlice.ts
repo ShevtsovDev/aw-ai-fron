@@ -16,38 +16,39 @@ export const adminSlice = createSlice({
   name: SLICE_NAME,
   initialState,
   reducers: {
-    startTyping: (state) => {
+    startTyping: state => {
       state.saved = false
-    }
+    },
   },
   extraReducers: builder =>
-    builder.addCase(fetchDocs.fulfilled, (state, action) => {
-      state.docs = action.payload
-      state.loading = false
-    })
-      .addCase(fetchDocs.pending, (state) => {
+    builder
+      .addCase(fetchDocs.fulfilled, (state, action) => {
+        state.docs = action.payload
+        state.loading = false
+      })
+      .addCase(fetchDocs.pending, state => {
         state.loading = true
       })
-      .addCase(fetchDocs.rejected, (state) => {
+      .addCase(fetchDocs.rejected, state => {
         state.loading = false
       })
-      .addCase(fetchDocByUUID.pending, (state) => {
+      .addCase(fetchDocByUUID.pending, state => {
         state.loading = true
       })
-      .addCase(fetchDocByUUID.fulfilled, (state) => {
+      .addCase(fetchDocByUUID.fulfilled, state => {
         state.loading = false
       })
-      .addCase(fetchDocByUUID.rejected, (state) => {
+      .addCase(fetchDocByUUID.rejected, state => {
         state.loading = false
       })
-      .addCase(saveDoc.pending, (state) => {
+      .addCase(saveDoc.pending, state => {
         state.saved = false
         state.saving = true
       })
-      .addCase(saveDoc.fulfilled, (state) => {
+      .addCase(saveDoc.fulfilled, state => {
         state.saved = true
         state.saving = false
-      })
+      }),
 })
 
 export const fetchDocs = createAsyncThunk<Doc[]>(
